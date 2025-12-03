@@ -13,6 +13,7 @@ use App\Livewire\Admin\Users as AdminUsers;
 use App\Livewire\Billing\Dashboard as BillingDashboard;
 use App\Livewire\Billing\Plans;
 use App\Livewire\Dashboard;
+use App\Livewire\LiveStatus;
 use App\Livewire\Monitors\Create as MonitorCreate;
 use App\Livewire\Monitors\Index as MonitorIndex;
 use App\Livewire\Monitors\Show as MonitorShow;
@@ -37,6 +38,7 @@ Route::view('profile', 'profile')
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/live-status', LiveStatus::class)->name('live-status');
 
     // Monitors
     Route::get('/monitors', MonitorIndex::class)->name('monitors.index');

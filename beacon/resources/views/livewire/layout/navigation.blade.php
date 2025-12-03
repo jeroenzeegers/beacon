@@ -44,6 +44,13 @@ new class extends Component
                     <a href="{{ route('projects.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('projects.*') ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
                         {{ __('Projects') }}
                     </a>
+                    <a href="{{ route('live-status') }}" wire:navigate class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('live-status') ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        {{ __('Live Status') }}
+                    </a>
                 </div>
             </div>
 
@@ -122,6 +129,13 @@ new class extends Component
             </a>
             <a href="{{ route('projects.index') }}" wire:navigate class="block px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('projects.*') ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
                 Projects
+            </a>
+            <a href="{{ route('live-status') }}" wire:navigate class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('live-status') ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                Live Status
             </a>
         </div>
 
