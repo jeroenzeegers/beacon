@@ -1,0 +1,47 @@
+{
+    "name": "beacon/laravel-metrics-exporter",
+    "description": "A Laravel package to expose application metrics via a JSON endpoint for external monitoring",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Beacon",
+            "email": "support@beacon.dev"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0",
+        "illuminate/http": "^10.0|^11.0",
+        "illuminate/routing": "^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Beacon\\MetricsExporter\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Beacon\\MetricsExporter\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Beacon\\MetricsExporter\\MetricsExporterServiceProvider"
+            ],
+            "aliases": {
+                "Metrics": "Beacon\\MetricsExporter\\Facades\\Metrics"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
