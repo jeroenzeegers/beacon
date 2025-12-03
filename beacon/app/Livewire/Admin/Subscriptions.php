@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin;
 
-use App\Models\Team;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
@@ -17,6 +16,7 @@ class Subscriptions extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $filter = 'all';
 
     public function updatingSearch(): void

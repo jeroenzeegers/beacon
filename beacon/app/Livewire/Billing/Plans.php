@@ -20,6 +20,7 @@ class Plans extends Component
 
         if ($plan->isFree()) {
             session()->flash('error', 'Cannot checkout for free plan.');
+
             return;
         }
 
@@ -27,8 +28,9 @@ class Plans extends Component
             ? $plan->stripe_price_id_yearly
             : $plan->stripe_price_id_monthly;
 
-        if (!$priceId) {
+        if (! $priceId) {
             session()->flash('error', 'This plan is not available for checkout yet.');
+
             return;
         }
 

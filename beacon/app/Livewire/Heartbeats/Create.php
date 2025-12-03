@@ -12,11 +12,17 @@ use Livewire\Component;
 class Create extends Component
 {
     public ?int $heartbeatId = null;
+
     public string $name = '';
+
     public string $description = '';
+
     public ?int $project_id = null;
+
     public int $expected_interval = 60;
+
     public int $grace_period = 5;
+
     public bool $is_active = true;
 
     public function mount(?int $id = null): void

@@ -49,7 +49,7 @@ class MonitorController extends Controller
     {
         $team = $request->user()->currentTeam;
 
-        if (!$this->usageLimiter->canCreateMonitor($team)) {
+        if (! $this->usageLimiter->canCreateMonitor($team)) {
             return response()->json([
                 'message' => 'Monitor limit reached. Please upgrade your plan.',
             ], 403);
@@ -74,7 +74,7 @@ class MonitorController extends Controller
         // Validate project belongs to team
         if (isset($validated['project_id'])) {
             $projectExists = $team->projects()->where('id', $validated['project_id'])->exists();
-            if (!$projectExists) {
+            if (! $projectExists) {
                 return response()->json([
                     'message' => 'The selected project does not exist.',
                 ], 422);
@@ -178,7 +178,7 @@ class MonitorController extends Controller
 
         $monitor = Monitor::where('team_id', $team->id)->findOrFail($id);
 
-        if (!$monitor->is_enabled) {
+        if (! $monitor->is_enabled) {
             return response()->json([
                 'message' => 'Monitor is disabled.',
             ], 422);

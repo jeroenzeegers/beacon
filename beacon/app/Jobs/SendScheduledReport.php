@@ -57,7 +57,7 @@ class SendScheduledReport implements ShouldQueue
         $this->report->logs()->create([
             'status' => empty($errors) ? 'sent' : 'failed',
             'recipients_count' => $sentCount,
-            'error_message' => !empty($errors) ? implode("\n", $errors) : null,
+            'error_message' => ! empty($errors) ? implode("\n", $errors) : null,
             'sent_at' => now(),
         ]);
 

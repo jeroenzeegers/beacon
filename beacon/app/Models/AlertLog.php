@@ -15,7 +15,9 @@ class AlertLog extends Model
     use BelongsToTeam, HasFactory;
 
     public const STATUS_SENT = 'sent';
+
     public const STATUS_FAILED = 'failed';
+
     public const STATUS_SKIPPED = 'skipped';
 
     protected $fillable = [

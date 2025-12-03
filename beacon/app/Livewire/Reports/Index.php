@@ -18,9 +18,9 @@ class Index extends Component
         $report = ScheduledReport::where('team_id', Auth::user()->current_team_id)
             ->findOrFail($id);
 
-        $report->update(['is_active' => !$report->is_active]);
+        $report->update(['is_active' => ! $report->is_active]);
 
-        if ($report->is_active && !$report->next_send_at) {
+        if ($report->is_active && ! $report->next_send_at) {
             $report->calculateNextSendAt();
         }
     }

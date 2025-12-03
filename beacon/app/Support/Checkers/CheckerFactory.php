@@ -13,10 +13,10 @@ class CheckerFactory
 
     public function __construct()
     {
-        $this->registerChecker(new HttpChecker());
-        $this->registerChecker(new TcpChecker());
-        $this->registerChecker(new PingChecker());
-        $this->registerChecker(new SslExpiryChecker());
+        $this->registerChecker(new HttpChecker);
+        $this->registerChecker(new TcpChecker);
+        $this->registerChecker(new PingChecker);
+        $this->registerChecker(new SslExpiryChecker);
     }
 
     public function registerChecker(CheckerInterface $checker): void

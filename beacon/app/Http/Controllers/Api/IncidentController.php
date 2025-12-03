@@ -55,7 +55,7 @@ class IncidentController extends Controller
         // Validate monitor belongs to team
         if (isset($validated['monitor_id'])) {
             $monitorExists = $team->monitors()->where('id', $validated['monitor_id'])->exists();
-            if (!$monitorExists) {
+            if (! $monitorExists) {
                 return response()->json([
                     'message' => 'The selected monitor does not exist.',
                 ], 422);
@@ -119,7 +119,7 @@ class IncidentController extends Controller
             IncidentUpdate::create([
                 'incident_id' => $incident->id,
                 'status' => $validated['status'],
-                'message' => 'Status changed to ' . $validated['status'],
+                'message' => 'Status changed to '.$validated['status'],
             ]);
         }
 

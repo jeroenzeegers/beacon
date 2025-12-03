@@ -6,9 +6,7 @@ namespace App\Services;
 
 use App\Models\Monitor;
 use App\Models\MonitorCheck;
-use App\Models\ScheduledReport;
 use App\Models\Team;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ReportService

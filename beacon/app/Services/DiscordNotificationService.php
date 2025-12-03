@@ -64,6 +64,7 @@ class DiscordNotificationService
 
         try {
             $response = Http::post($channel->webhook_url, $payload);
+
             return $response->successful();
         } catch (\Exception $e) {
             Log::error('Discord notification failed', [
@@ -71,6 +72,7 @@ class DiscordNotificationService
                 'monitor_id' => $monitor->id,
                 'error' => $e->getMessage(),
             ]);
+
             return false;
         }
     }
@@ -88,7 +90,7 @@ class DiscordNotificationService
                 [
                     'title' => '✅ Test Notification',
                     'description' => 'Your Discord integration is working correctly!',
-                    'color' => 0x22c55e,
+                    'color' => 0x22C55E,
                     'timestamp' => now()->toIso8601String(),
                     'footer' => [
                         'text' => 'Beacon Monitoring',
@@ -99,12 +101,14 @@ class DiscordNotificationService
 
         try {
             $response = Http::post($channel->webhook_url, $payload);
+
             return $response->successful();
         } catch (\Exception $e) {
             Log::error('Discord test notification failed', [
                 'channel_id' => $channel->id,
                 'error' => $e->getMessage(),
             ]);
+
             return false;
         }
     }
@@ -112,10 +116,10 @@ class DiscordNotificationService
     private function getColorForStatus(string $status): int
     {
         return match ($status) {
-            'up' => 0x22c55e,      // Green
-            'degraded' => 0xf59e0b, // Amber
-            'down' => 0xef4444,     // Red
-            default => 0x6b7280,    // Gray
+            'up' => 0x22C55E,      // Green
+            'degraded' => 0xF59E0B, // Amber
+            'down' => 0xEF4444,     // Red
+            default => 0x6B7280,    // Gray
         };
     }
 

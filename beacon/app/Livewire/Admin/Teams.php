@@ -17,8 +17,11 @@ class Teams extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $filter = 'all';
+
     public ?int $selectedTeamId = null;
+
     public bool $showTeamModal = false;
 
     public function updatingSearch(): void

@@ -32,7 +32,7 @@ class PingChecker implements CheckerInterface
 
         if ($returnCode !== 0) {
             return CheckResult::failure(
-                errorMessage: "Ping failed: Host unreachable",
+                errorMessage: 'Ping failed: Host unreachable',
                 responseTime: $responseTime,
             );
         }
@@ -69,7 +69,7 @@ class PingChecker implements CheckerInterface
         try {
             $ip = gethostbyname($host);
 
-            if ($ip === $host && !filter_var($host, FILTER_VALIDATE_IP)) {
+            if ($ip === $host && ! filter_var($host, FILTER_VALIDATE_IP)) {
                 // DNS resolution failed and host is not an IP
                 return null;
             }

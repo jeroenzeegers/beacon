@@ -11,14 +11,23 @@ use Livewire\Component;
 class Create extends Component
 {
     public ?int $reportId = null;
+
     public string $name = '';
+
     public string $type = 'weekly_summary';
+
     public string $frequency = 'weekly';
+
     public string $day_of_week = 'monday';
+
     public int $day_of_month = 1;
+
     public string $time = '09:00';
+
     public string $timezone = 'UTC';
+
     public string $recipients = '';
+
     public bool $is_active = true;
 
     protected array $timezones = [
@@ -61,10 +70,11 @@ class Create extends Component
         ]);
 
         $recipientsList = array_map('trim', explode(',', $this->recipients));
-        $recipientsList = array_filter($recipientsList, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
+        $recipientsList = array_filter($recipientsList, fn ($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
         if (empty($recipientsList)) {
             $this->addError('recipients', 'Please provide at least one valid email address.');
+
             return;
         }
 

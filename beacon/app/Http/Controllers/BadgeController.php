@@ -20,7 +20,7 @@ class BadgeController extends Controller
         $monitor = Monitor::findOrFail($monitorId);
 
         // Check if monitor allows public badges
-        if (!($monitor->metadata['public_badge'] ?? false)) {
+        if (! ($monitor->metadata['public_badge'] ?? false)) {
             abort(403, 'Public badges not enabled for this monitor');
         }
 
@@ -38,7 +38,7 @@ class BadgeController extends Controller
     {
         $monitor = Monitor::findOrFail($monitorId);
 
-        if (!($monitor->metadata['public_badge'] ?? false)) {
+        if (! ($monitor->metadata['public_badge'] ?? false)) {
             abort(403, 'Public badges not enabled for this monitor');
         }
 
@@ -56,7 +56,7 @@ class BadgeController extends Controller
     {
         $monitor = Monitor::findOrFail($monitorId);
 
-        if (!($monitor->metadata['public_badge'] ?? false)) {
+        if (! ($monitor->metadata['public_badge'] ?? false)) {
             abort(403, 'Public badges not enabled for this monitor');
         }
 

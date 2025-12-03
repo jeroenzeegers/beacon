@@ -14,6 +14,7 @@ class Index extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $statusFilter = '';
 
     public function updatingSearch(): void
@@ -36,7 +37,7 @@ class Index extends Component
         $heartbeat = Heartbeat::where('team_id', Auth::user()->current_team_id)
             ->findOrFail($id);
 
-        $heartbeat->update(['is_active' => !$heartbeat->is_active]);
+        $heartbeat->update(['is_active' => ! $heartbeat->is_active]);
     }
 
     public function render()

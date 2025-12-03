@@ -9,7 +9,6 @@ use App\Models\Monitor;
 use App\Models\Project;
 use App\Services\UsageLimiter;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Dashboard extends Component

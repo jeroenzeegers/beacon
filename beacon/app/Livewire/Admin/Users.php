@@ -19,8 +19,11 @@ class Users extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $filter = 'all';
+
     public ?int $selectedUserId = null;
+
     public bool $showUserModal = false;
 
     public function updatingSearch(): void
@@ -63,10 +66,11 @@ class Users extends Component
 
         if ($user->id === Auth::id()) {
             session()->flash('error', 'You cannot modify your own admin status.');
+
             return;
         }
 
-        $user->update(['is_admin' => !$user->is_admin]);
+        $user->update(['is_admin' => ! $user->is_admin]);
 
         AuditLog::log(
             'admin_toggle',
@@ -87,6 +91,7 @@ class Users extends Component
 
         if ($user->id === Auth::id()) {
             session()->flash('error', 'You cannot impersonate yourself.');
+
             return;
         }
 
@@ -123,6 +128,7 @@ class Users extends Component
 
         if ($user->id === Auth::id()) {
             session()->flash('error', 'You cannot delete yourself.');
+
             return;
         }
 

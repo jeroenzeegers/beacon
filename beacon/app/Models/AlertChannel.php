@@ -17,11 +17,17 @@ class AlertChannel extends Model
     use BelongsToTeam, HasFactory;
 
     public const TYPE_EMAIL = 'email';
+
     public const TYPE_SLACK = 'slack';
+
     public const TYPE_WEBHOOK = 'webhook';
+
     public const TYPE_SMS = 'sms';
+
     public const TYPE_PAGERDUTY = 'pagerduty';
+
     public const TYPE_DISCORD = 'discord';
+
     public const TYPE_TELEGRAM = 'telegram';
 
     protected $fillable = [

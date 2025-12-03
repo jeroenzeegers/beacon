@@ -33,7 +33,7 @@ class ProjectController extends Controller
     {
         $team = $request->user()->currentTeam;
 
-        if (!$this->usageLimiter->canCreateProject($team)) {
+        if (! $this->usageLimiter->canCreateProject($team)) {
             return response()->json([
                 'message' => 'Project limit reached. Please upgrade your plan.',
             ], 403);

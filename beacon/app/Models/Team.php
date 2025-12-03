@@ -33,7 +33,7 @@ class Team extends Model
                 $originalSlug = $team->slug;
                 $counter = 1;
                 while (static::where('slug', $team->slug)->exists()) {
-                    $team->slug = $originalSlug . '-' . $counter++;
+                    $team->slug = $originalSlug.'-'.$counter++;
                 }
             }
         });
@@ -84,14 +84,14 @@ class Team extends Model
 
     public function addUser(User $user, string $role = 'member'): void
     {
-        if (!$this->hasUser($user)) {
+        if (! $this->hasUser($user)) {
             $this->users()->attach($user->id, ['role' => $role]);
         }
     }
 
     public function removeUser(User $user): void
     {
-        if (!$this->isOwner($user)) {
+        if (! $this->isOwner($user)) {
             $this->users()->detach($user->id);
         }
     }
@@ -147,7 +147,7 @@ class Team extends Model
     {
         $subscription = $this->subscription('default');
 
-        if (!$subscription || !$subscription->active()) {
+        if (! $subscription || ! $subscription->active()) {
             return Plan::where('slug', 'free')->first();
         }
 
@@ -185,7 +185,7 @@ class Team extends Model
      */
     public function onFreePlan(): bool
     {
-        return !$this->subscribed() && !$this->onTrial();
+        return ! $this->subscribed() && ! $this->onTrial();
     }
 
     /**

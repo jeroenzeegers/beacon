@@ -14,7 +14,7 @@ class DiscordSender implements AlertSenderInterface
     {
         $webhookUrl = $channel->getConfigValue('webhook_url');
 
-        if (!$webhookUrl) {
+        if (! $webhookUrl) {
             return false;
         }
 
@@ -33,10 +33,10 @@ class DiscordSender implements AlertSenderInterface
     private function buildEmbed(Monitor $monitor, string $trigger, string $message): array
     {
         $color = match ($trigger) {
-            'monitor_down' => 0xdc3545,
-            'monitor_up' => 0x28a745,
-            'monitor_degraded' => 0xffc107,
-            default => 0x6c757d,
+            'monitor_down' => 0xDC3545,
+            'monitor_up' => 0x28A745,
+            'monitor_degraded' => 0xFFC107,
+            default => 0x6C757D,
         };
 
         $statusEmoji = match ($trigger) {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\Team;
-use App\Notifications\TrialExpiringNotification;
 use App\Notifications\TrialExpiredNotification;
+use App\Notifications\TrialExpiringNotification;
 use Illuminate\Console\Command;
 
 class CheckExpiringTrials extends Command
@@ -46,7 +46,7 @@ class CheckExpiringTrials extends Command
         foreach ($teams as $team) {
             $subscription = $team->subscription('default');
 
-            if (!$subscription || !$subscription->onTrial()) {
+            if (! $subscription || ! $subscription->onTrial()) {
                 continue;
             }
 
@@ -92,7 +92,7 @@ class CheckExpiringTrials extends Command
         foreach ($teams as $team) {
             $subscription = $team->subscription('default');
 
-            if (!$subscription) {
+            if (! $subscription) {
                 continue;
             }
 

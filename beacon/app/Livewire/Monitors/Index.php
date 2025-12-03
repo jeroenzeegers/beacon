@@ -48,7 +48,7 @@ class Index extends Component
         $monitor = Monitor::where('team_id', Auth::user()->current_team_id)
             ->findOrFail($id);
 
-        $monitor->update(['is_active' => !$monitor->is_active]);
+        $monitor->update(['is_active' => ! $monitor->is_active]);
     }
 
     public function render()

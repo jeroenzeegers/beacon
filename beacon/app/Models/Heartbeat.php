@@ -16,8 +16,11 @@ class Heartbeat extends Model
     use BelongsToTeam, HasFactory;
 
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_HEALTHY = 'healthy';
+
     public const STATUS_LATE = 'late';
+
     public const STATUS_MISSING = 'missing';
 
     protected $fillable = [
@@ -91,7 +94,7 @@ class Heartbeat extends Model
 
     public function checkStatus(): string
     {
-        if (!$this->last_ping_at) {
+        if (! $this->last_ping_at) {
             return self::STATUS_PENDING;
         }
 

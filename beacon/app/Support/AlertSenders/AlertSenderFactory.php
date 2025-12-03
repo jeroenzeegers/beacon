@@ -12,10 +12,10 @@ class AlertSenderFactory
 
     public function __construct()
     {
-        $this->registerSender(new EmailSender());
-        $this->registerSender(new SlackSender());
-        $this->registerSender(new WebhookSender());
-        $this->registerSender(new DiscordSender());
+        $this->registerSender(new EmailSender);
+        $this->registerSender(new SlackSender);
+        $this->registerSender(new WebhookSender);
+        $this->registerSender(new DiscordSender);
     }
 
     public function registerSender(AlertSenderInterface $sender): void

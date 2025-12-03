@@ -17,6 +17,7 @@ class SendAlert implements ShouldQueue
     use Queueable;
 
     public int $tries = 3;
+
     public int $backoff = 60;
 
     public function __construct(
@@ -41,20 +42,22 @@ class SendAlert implements ShouldQueue
             ->get();
 
         if ($rules->isEmpty()) {
-            Log::debug("No alert rules found for monitor", [
+            Log::debug('No alert rules found for monitor', [
                 'monitor_id' => $this->monitor->id,
                 'trigger' => $trigger,
             ]);
+
             return;
         }
 
         foreach ($rules as $rule) {
-            if (!$rule->shouldTrigger($trigger, $this->monitor)) {
-                Log::debug("Rule skipped (conditions not met)", [
+            if (! $rule->shouldTrigger($trigger, $this->monitor)) {
+                Log::debug('Rule skipped (conditions not met)', [
                     'rule_id' => $rule->id,
                     'monitor_id' => $this->monitor->id,
                     'trigger' => $trigger,
                 ]);
+
                 continue;
             }
 
@@ -65,16 +68,17 @@ class SendAlert implements ShouldQueue
     private function processRule(AlertRule $rule, string $trigger, string $message, AlertSenderFactory $senderFactory): void
     {
         foreach ($rule->channels as $channel) {
-            if (!$channel->is_active) {
+            if (! $channel->is_active) {
                 continue;
             }
 
             try {
-                if (!$senderFactory->hasSender($channel->type)) {
-                    Log::warning("No sender available for channel type", [
+                if (! $senderFactory->hasSender($channel->type)) {
+                    Log::warning('No sender available for channel type', [
                         'channel_type' => $channel->type,
                         'channel_id' => $channel->id,
                     ]);
+
                     continue;
                 }
 
@@ -96,7 +100,7 @@ class SendAlert implements ShouldQueue
                     errorMessage: $success ? null : 'Failed to send alert',
                 );
 
-                Log::info("Alert sent", [
+                Log::info('Alert sent', [
                     'monitor_id' => $this->monitor->id,
                     'channel_id' => $channel->id,
                     'channel_type' => $channel->type,
@@ -114,7 +118,7 @@ class SendAlert implements ShouldQueue
                     errorMessage: $e->getMessage(),
                 );
 
-                Log::error("Failed to send alert", [
+                Log::error('Failed to send alert', [
                     'monitor_id' => $this->monitor->id,
                     'channel_id' => $channel->id,
                     'error' => $e->getMessage(),
@@ -144,9 +148,9 @@ class SendAlert implements ShouldQueue
 
         $message = "Monitor **{$this->monitor->name}** {$statusText}.\n\n";
         $message .= "**Target:** {$this->monitor->target}\n";
-        $message .= "**Type:** " . ucfirst($this->monitor->type) . "\n";
-        $message .= "**Previous Status:** " . ucfirst($this->previousStatus) . "\n";
-        $message .= "**Time:** " . now()->format('Y-m-d H:i:s T');
+        $message .= '**Type:** '.ucfirst($this->monitor->type)."\n";
+        $message .= '**Previous Status:** '.ucfirst($this->previousStatus)."\n";
+        $message .= '**Time:** '.now()->format('Y-m-d H:i:s T');
 
         // Add latest check info if available
         $latestCheck = $this->monitor->latestCheck;

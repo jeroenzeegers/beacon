@@ -41,6 +41,7 @@ class OnCallRotation extends Model
     public function isActive(): bool
     {
         $now = now($this->schedule->timezone ?? 'UTC');
+
         return $now->gte($this->starts_at) && $now->lte($this->ends_at);
     }
 }

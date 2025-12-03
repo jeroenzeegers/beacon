@@ -112,7 +112,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function switchToTeam(Team $team): bool
     {
-        if (!$this->belongsToTeam($team)) {
+        if (! $this->belongsToTeam($team)) {
             return false;
         }
 
@@ -135,7 +135,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $team->addUser($this, 'owner');
 
         // Set as current team if user doesn't have one
-        if (!$this->current_team_id) {
+        if (! $this->current_team_id) {
             $this->update(['current_team_id' => $team->id]);
         }
 

@@ -6,7 +6,6 @@ namespace App\Events;
 
 use App\Models\Monitor;
 use App\Models\MonitorCheck;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -28,8 +27,8 @@ class MonitorCheckCompleted implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('team.' . $this->monitor->team_id),
-            new PrivateChannel('monitor.' . $this->monitor->id),
+            new PrivateChannel('team.'.$this->monitor->team_id),
+            new PrivateChannel('monitor.'.$this->monitor->id),
         ];
     }
 

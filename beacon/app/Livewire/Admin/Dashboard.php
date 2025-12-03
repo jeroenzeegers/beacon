@@ -117,7 +117,7 @@ class Dashboard extends Component
     private function checkCache(): array
     {
         try {
-            $key = 'health_check_' . time();
+            $key = 'health_check_'.time();
             cache()->put($key, true, 10);
             $result = cache()->get($key);
             cache()->forget($key);

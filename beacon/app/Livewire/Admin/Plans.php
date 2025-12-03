@@ -15,24 +15,38 @@ use Livewire\Component;
 class Plans extends Component
 {
     public bool $showCreateModal = false;
+
     public bool $showEditModal = false;
+
     public ?int $editingPlanId = null;
 
     public string $name = '';
+
     public string $stripe_price_id = '';
+
     public int $price = 0;
+
     public string $billing_period = 'monthly';
+
     public bool $is_active = true;
 
     // Plan limits
     public int $max_monitors = 10;
+
     public int $max_team_members = 5;
+
     public int $check_interval_minutes = 5;
+
     public int $retention_days = 30;
+
     public bool $api_access = false;
+
     public bool $custom_status_page = false;
+
     public bool $sms_alerts = false;
+
     public bool $slack_integration = false;
+
     public bool $webhook_integration = false;
 
     protected function rules(): array
@@ -170,7 +184,7 @@ class Plans extends Component
     public function togglePlanStatus(int $planId): void
     {
         $plan = Plan::findOrFail($planId);
-        $plan->update(['is_active' => !$plan->is_active]);
+        $plan->update(['is_active' => ! $plan->is_active]);
 
         AuditLog::log(
             'update',

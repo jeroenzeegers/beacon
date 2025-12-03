@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\Teams;
 
-use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -31,8 +30,9 @@ class Settings extends Component
 
         $team = Auth::user()->currentTeam;
 
-        if (!$team->isAdmin(Auth::user())) {
+        if (! $team->isAdmin(Auth::user())) {
             session()->flash('error', 'You do not have permission to update team settings.');
+
             return;
         }
 

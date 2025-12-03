@@ -17,14 +17,21 @@ class Monitor extends Model
     use BelongsToTeam, HasFactory;
 
     public const TYPE_HTTP = 'http';
+
     public const TYPE_HTTPS = 'https';
+
     public const TYPE_TCP = 'tcp';
+
     public const TYPE_PING = 'ping';
+
     public const TYPE_SSL_EXPIRY = 'ssl_expiry';
 
     public const STATUS_UP = 'up';
+
     public const STATUS_DOWN = 'down';
+
     public const STATUS_DEGRADED = 'degraded';
+
     public const STATUS_UNKNOWN = 'unknown';
 
     protected $fillable = [
@@ -112,7 +119,7 @@ class Monitor extends Model
 
     public function isDueForCheck(): bool
     {
-        if (!$this->is_active) {
+        if (! $this->is_active) {
             return false;
         }
 

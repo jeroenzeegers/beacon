@@ -17,7 +17,7 @@ class WebhookSender implements AlertSenderInterface
         $headers = $channel->getConfigValue('headers', []);
         $secret = $channel->getConfigValue('secret');
 
-        if (!$url) {
+        if (! $url) {
             return false;
         }
 

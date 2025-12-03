@@ -25,7 +25,7 @@ class TrialExpiredNotification extends Notification implements ShouldQueue
 
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject('Your Beacon trial has expired')
             ->greeting("Hello {$notifiable->name}!")
             ->line("Your free trial for **{$this->team->name}** has expired.")

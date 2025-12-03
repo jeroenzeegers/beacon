@@ -13,7 +13,7 @@ class BadgeService
         $uptime = $monitor->getUptimePercentage(30);
         $color = $this->getColorForUptime($uptime);
         $label = urlencode($monitor->name);
-        $value = $uptime . '%';
+        $value = $uptime.'%';
 
         return $this->generateSvg($label, $value, $color, $style);
     }
@@ -33,7 +33,7 @@ class BadgeService
         $responseTime = $monitor->getAverageResponseTime(7) ?? 0;
         $color = $this->getColorForResponseTime($responseTime);
         $label = urlencode($monitor->name);
-        $value = round($responseTime) . 'ms';
+        $value = round($responseTime).'ms';
 
         return $this->generateSvg($label, $value, $color, $style);
     }
@@ -90,10 +90,19 @@ SVG;
 
     private function getColorForUptime(float $uptime): string
     {
-        if ($uptime >= 99.9) return '#4c1';      // Bright green
-        if ($uptime >= 99.0) return '#97ca00';   // Green
-        if ($uptime >= 95.0) return '#dfb317';   // Yellow
-        if ($uptime >= 90.0) return '#fe7d37';   // Orange
+        if ($uptime >= 99.9) {
+            return '#4c1';
+        }      // Bright green
+        if ($uptime >= 99.0) {
+            return '#97ca00';
+        }   // Green
+        if ($uptime >= 95.0) {
+            return '#dfb317';
+        }   // Yellow
+        if ($uptime >= 90.0) {
+            return '#fe7d37';
+        }   // Orange
+
         return '#e05d44';                         // Red
     }
 
@@ -109,10 +118,19 @@ SVG;
 
     private function getColorForResponseTime(float $ms): string
     {
-        if ($ms <= 200) return '#4c1';
-        if ($ms <= 500) return '#97ca00';
-        if ($ms <= 1000) return '#dfb317';
-        if ($ms <= 2000) return '#fe7d37';
+        if ($ms <= 200) {
+            return '#4c1';
+        }
+        if ($ms <= 500) {
+            return '#97ca00';
+        }
+        if ($ms <= 1000) {
+            return '#dfb317';
+        }
+        if ($ms <= 2000) {
+            return '#fe7d37';
+        }
+
         return '#e05d44';
     }
 }

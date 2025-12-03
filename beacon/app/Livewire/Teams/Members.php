@@ -13,6 +13,7 @@ use Livewire\Component;
 class Members extends Component
 {
     public string $email = '';
+
     public string $role = 'member';
 
     public bool $showInviteModal = false;
@@ -42,27 +43,31 @@ class Members extends Component
 
         $team = Auth::user()->currentTeam;
 
-        if (!$team->isAdmin(Auth::user())) {
+        if (! $team->isAdmin(Auth::user())) {
             session()->flash('error', 'You do not have permission to invite members.');
+
             return;
         }
 
         $usageLimiter = app(UsageLimiter::class);
-        if (!$usageLimiter->canAddTeamMember($team)) {
+        if (! $usageLimiter->canAddTeamMember($team)) {
             session()->flash('error', 'You have reached your team member limit. Please upgrade your plan.');
+
             return;
         }
 
         $user = User::where('email', $this->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             // TODO: Send invitation email to create account
             session()->flash('error', 'User not found. Please ask them to create an account first.');
+
             return;
         }
 
         if ($team->hasUser($user)) {
             session()->flash('error', 'This user is already a member of the team.');
+
             return;
         }
 
@@ -77,8 +82,9 @@ class Members extends Component
     {
         $team = Auth::user()->currentTeam;
 
-        if (!$team->isAdmin(Auth::user())) {
+        if (! $team->isAdmin(Auth::user())) {
             session()->flash('error', 'You do not have permission to update member roles.');
+
             return;
         }
 
@@ -86,6 +92,7 @@ class Members extends Component
 
         if ($team->isOwner($user)) {
             session()->flash('error', 'Cannot change the owner\'s role.');
+
             return;
         }
 
@@ -98,8 +105,9 @@ class Members extends Component
     {
         $team = Auth::user()->currentTeam;
 
-        if (!$team->isAdmin(Auth::user())) {
+        if (! $team->isAdmin(Auth::user())) {
             session()->flash('error', 'You do not have permission to remove members.');
+
             return;
         }
 
@@ -107,6 +115,7 @@ class Members extends Component
 
         if ($team->isOwner($user)) {
             session()->flash('error', 'Cannot remove the team owner.');
+
             return;
         }
 

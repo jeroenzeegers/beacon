@@ -69,7 +69,7 @@ class Plan extends Model
      */
     public function getFormattedMonthlyPriceAttribute(): string
     {
-        return '€' . number_format($this->price_monthly / 100, 2);
+        return '€'.number_format($this->price_monthly / 100, 2);
     }
 
     /**
@@ -77,7 +77,7 @@ class Plan extends Model
      */
     public function getFormattedYearlyPriceAttribute(): string
     {
-        return '€' . number_format($this->price_yearly / 100, 2);
+        return '€'.number_format($this->price_yearly / 100, 2);
     }
 
     /**

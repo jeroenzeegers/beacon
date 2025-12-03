@@ -16,7 +16,7 @@ trait BelongsToTeam
         // Add global scope to filter by current team
         static::addGlobalScope('team', function (Builder $builder) {
             if (auth()->check() && auth()->user()->current_team_id) {
-                $builder->where($builder->getModel()->getTable() . '.team_id', auth()->user()->current_team_id);
+                $builder->where($builder->getModel()->getTable().'.team_id', auth()->user()->current_team_id);
             }
         });
 

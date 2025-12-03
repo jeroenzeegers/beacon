@@ -28,6 +28,7 @@ class ScheduleMonitorChecks extends Command
 
         if ($monitors->isEmpty()) {
             $this->info('No monitors due for checking.');
+
             return Command::SUCCESS;
         }
 

@@ -68,7 +68,7 @@ class Show extends Component
 
     public function toggleActive(): void
     {
-        $this->monitor->update(['is_active' => !$this->monitor->is_active]);
+        $this->monitor->update(['is_active' => ! $this->monitor->is_active]);
         $this->monitor->refresh();
     }
 

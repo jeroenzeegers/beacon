@@ -22,7 +22,7 @@ class TcpChecker implements CheckerInterface
 
             $responseTime = (int) round((microtime(true) - $startTime) * 1000);
 
-            if (!$socket) {
+            if (! $socket) {
                 return CheckResult::failure(
                     errorMessage: "TCP connection failed: {$errstr} (#{$errno})",
                     responseTime: $responseTime,

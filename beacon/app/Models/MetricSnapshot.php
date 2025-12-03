@@ -14,17 +14,27 @@ class MetricSnapshot extends Model
     use HasFactory;
 
     public const PERIOD_MINUTE = 'minute';
+
     public const PERIOD_HOUR = 'hour';
+
     public const PERIOD_DAY = 'day';
 
     public const TYPE_REQUEST_COUNT = 'request_count';
+
     public const TYPE_ERROR_RATE = 'error_rate';
+
     public const TYPE_RESPONSE_TIME_AVG = 'response_time_avg';
+
     public const TYPE_RESPONSE_TIME_P95 = 'response_time_p95';
+
     public const TYPE_RESPONSE_TIME_P99 = 'response_time_p99';
+
     public const TYPE_THROUGHPUT = 'throughput';
+
     public const TYPE_ERROR_COUNT = 'error_count';
+
     public const TYPE_CPU_USAGE = 'cpu_usage';
+
     public const TYPE_MEMORY_USAGE = 'memory_usage';
 
     protected $fillable = [

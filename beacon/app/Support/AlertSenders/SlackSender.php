@@ -14,7 +14,7 @@ class SlackSender implements AlertSenderInterface
     {
         $webhookUrl = $channel->getConfigValue('webhook_url');
 
-        if (!$webhookUrl) {
+        if (! $webhookUrl) {
             return false;
         }
 
@@ -76,7 +76,7 @@ class SlackSender implements AlertSenderInterface
                     ],
                     [
                         'type' => 'mrkdwn',
-                        'text' => "*Trigger:* " . str_replace('_', ' ', $trigger),
+                        'text' => '*Trigger:* '.str_replace('_', ' ', $trigger),
                     ],
                 ],
             ],

@@ -17,10 +17,15 @@ class AlertRule extends Model
     use BelongsToTeam, HasFactory;
 
     public const TRIGGER_MONITOR_DOWN = 'monitor_down';
+
     public const TRIGGER_MONITOR_UP = 'monitor_up';
+
     public const TRIGGER_MONITOR_DEGRADED = 'monitor_degraded';
+
     public const TRIGGER_SSL_EXPIRING = 'ssl_expiring';
+
     public const TRIGGER_RESPONSE_SLOW = 'response_slow';
+
     public const TRIGGER_STATUS_CHANGE = 'status_change';
 
     protected $fillable = [
@@ -100,7 +105,7 @@ class AlertRule extends Model
             ->latest('sent_at')
             ->first();
 
-        if (!$lastAlert) {
+        if (! $lastAlert) {
             return false;
         }
 
@@ -109,7 +114,7 @@ class AlertRule extends Model
 
     public function shouldTrigger(string $trigger, ?Monitor $monitor = null): bool
     {
-        if (!$this->is_active) {
+        if (! $this->is_active) {
             return false;
         }
 
@@ -133,7 +138,7 @@ class AlertRule extends Model
         }
 
         // Check additional conditions
-        if (!$this->checkConditions($monitor)) {
+        if (! $this->checkConditions($monitor)) {
             return false;
         }
 

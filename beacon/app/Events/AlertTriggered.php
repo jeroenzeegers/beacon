@@ -6,7 +6,6 @@ namespace App\Events;
 
 use App\Models\AlertLog;
 use App\Models\Monitor;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -29,7 +28,7 @@ class AlertTriggered implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('team.' . $this->monitor->team_id),
+            new PrivateChannel('team.'.$this->monitor->team_id),
         ];
     }
 

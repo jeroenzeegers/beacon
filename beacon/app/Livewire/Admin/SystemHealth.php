@@ -59,7 +59,7 @@ class SystemHealth extends Component
     {
         try {
             $start = microtime(true);
-            $key = 'health_check_' . time();
+            $key = 'health_check_'.time();
             cache()->put($key, true, 10);
             $result = cache()->get($key);
             cache()->forget($key);
@@ -179,7 +179,7 @@ class SystemHealth extends Component
         $pow = min($pow, count($units) - 1);
         $bytes /= (1 << (10 * $pow));
 
-        return round($bytes, 2) . ' ' . $units[$pow];
+        return round($bytes, 2).' '.$units[$pow];
     }
 
     public function retryFailedJobs(): void

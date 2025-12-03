@@ -50,7 +50,7 @@ class StatusPage extends Model
                 $originalSlug = $statusPage->slug;
                 $counter = 1;
                 while (static::where('slug', $statusPage->slug)->exists()) {
-                    $statusPage->slug = $originalSlug . '-' . $counter++;
+                    $statusPage->slug = $originalSlug.'-'.$counter++;
                 }
             }
         });
@@ -141,7 +141,7 @@ class StatusPage extends Model
             ->get();
     }
 
-    public function getUptimePercentage(int $days = null): float
+    public function getUptimePercentage(?int $days = null): float
     {
         $days = $days ?? $this->uptime_days_shown;
         $monitors = $this->monitors;

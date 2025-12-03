@@ -7,7 +7,6 @@ namespace App\Jobs;
 use App\Events\MonitorCheckCompleted;
 use App\Events\MonitorStatusChanged;
 use App\Models\Monitor;
-use App\Models\MonitorCheck;
 use App\Support\Checkers\CheckerFactory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -19,6 +18,7 @@ class PerformMonitorCheck implements ShouldQueue
     use Queueable;
 
     public int $tries = 1;
+
     public int $timeout = 120;
 
     public function __construct(
@@ -37,8 +37,9 @@ class PerformMonitorCheck implements ShouldQueue
 
     public function handle(CheckerFactory $checkerFactory): void
     {
-        if (!$this->monitor->is_active) {
+        if (! $this->monitor->is_active) {
             Log::debug("Monitor {$this->monitor->id} is inactive, skipping check");
+
             return;
         }
 
@@ -50,7 +51,7 @@ class PerformMonitorCheck implements ShouldQueue
             // Record the check
             $this->monitor->recordCheck($result->status, $result->toArray());
 
-            Log::info("Monitor check completed", [
+            Log::info('Monitor check completed', [
                 'monitor_id' => $this->monitor->id,
                 'monitor_name' => $this->monitor->name,
                 'status' => $result->status,
@@ -71,7 +72,7 @@ class PerformMonitorCheck implements ShouldQueue
                 $this->handleStatusChange($previousStatus, $freshMonitor->status);
             }
         } catch (\Exception $e) {
-            Log::error("Monitor check failed", [
+            Log::error('Monitor check failed', [
                 'monitor_id' => $this->monitor->id,
                 'error' => $e->getMessage(),
             ]);
@@ -85,7 +86,7 @@ class PerformMonitorCheck implements ShouldQueue
 
     private function handleStatusChange(string $previousStatus, string $newStatus): void
     {
-        Log::info("Monitor status changed", [
+        Log::info('Monitor status changed', [
             'monitor_id' => $this->monitor->id,
             'monitor_name' => $this->monitor->name,
             'previous_status' => $previousStatus,

@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Models\Team;
 use App\Models\UsageRecord;
-use App\Support\PlanLimits;
 
 class UsageLimiter
 {
@@ -82,7 +81,7 @@ class UsageLimiter
     {
         $limits = $team->getPlanLimits();
 
-        if (!$limits->hasFeature('sms_alerts')) {
+        if (! $limits->hasFeature('sms_alerts')) {
             return false;
         }
 

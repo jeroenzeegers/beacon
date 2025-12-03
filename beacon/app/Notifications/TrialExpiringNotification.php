@@ -29,7 +29,7 @@ class TrialExpiringNotification extends Notification implements ShouldQueue
     {
         $daysLeft = now()->diffInDays($this->expiresAt);
 
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject("Your Beacon trial expires in {$daysLeft} days")
             ->greeting("Hello {$notifiable->name}!")
             ->line("Your free trial for **{$this->team->name}** will expire in {$daysLeft} days.")

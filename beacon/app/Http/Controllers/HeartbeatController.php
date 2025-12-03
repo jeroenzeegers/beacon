@@ -14,16 +14,16 @@ class HeartbeatController extends Controller
     {
         $heartbeat = Heartbeat::where('slug', $slug)->first();
 
-        if (!$heartbeat) {
+        if (! $heartbeat) {
             return response()->json(['error' => 'Heartbeat not found'], 404);
         }
 
-        if (!$heartbeat->is_active) {
+        if (! $heartbeat->is_active) {
             return response()->json(['error' => 'Heartbeat is inactive'], 400);
         }
 
         $status = $request->input('status', 'success');
-        if (!in_array($status, ['success', 'fail'])) {
+        if (! in_array($status, ['success', 'fail'])) {
             $status = 'success';
         }
 
@@ -46,11 +46,11 @@ class HeartbeatController extends Controller
     {
         $heartbeat = Heartbeat::where('slug', $slug)->first();
 
-        if (!$heartbeat) {
+        if (! $heartbeat) {
             return response()->json(['error' => 'Heartbeat not found'], 404);
         }
 
-        if (!$heartbeat->is_active) {
+        if (! $heartbeat->is_active) {
             return response()->json(['error' => 'Heartbeat is inactive'], 400);
         }
 

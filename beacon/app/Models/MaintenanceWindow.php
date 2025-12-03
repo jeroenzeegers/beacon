@@ -15,12 +15,17 @@ class MaintenanceWindow extends Model
     use BelongsToTeam, HasFactory;
 
     public const STATUS_SCHEDULED = 'scheduled';
+
     public const STATUS_ACTIVE = 'active';
+
     public const STATUS_COMPLETED = 'completed';
+
     public const STATUS_CANCELLED = 'cancelled';
 
     public const RECURRENCE_DAILY = 'daily';
+
     public const RECURRENCE_WEEKLY = 'weekly';
+
     public const RECURRENCE_MONTHLY = 'monthly';
 
     protected $fillable = [

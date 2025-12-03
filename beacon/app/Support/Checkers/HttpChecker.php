@@ -21,7 +21,7 @@ class HttpChecker implements CheckerInterface
         $followRedirects = $options['follow_redirects'] ?? true;
 
         // Ensure expected_status is an array
-        if (!is_array($expectedStatus)) {
+        if (! is_array($expectedStatus)) {
             $expectedStatus = [$expectedStatus];
         }
 
@@ -31,7 +31,7 @@ class HttpChecker implements CheckerInterface
             $request = Http::timeout($monitor->timeout)
                 ->withHeaders($headers);
 
-            if (!$followRedirects) {
+            if (! $followRedirects) {
                 $request->withOptions(['allow_redirects' => false]);
             }
 
@@ -52,7 +52,7 @@ class HttpChecker implements CheckerInterface
             $responseSize = strlen($responseBody);
 
             // Check status code
-            if (!in_array($statusCode, $expectedStatus, true)) {
+            if (! in_array($statusCode, $expectedStatus, true)) {
                 return CheckResult::failure(
                     errorMessage: "Unexpected status code: {$statusCode}",
                     responseTime: $responseTime,
@@ -62,9 +62,9 @@ class HttpChecker implements CheckerInterface
             }
 
             // Check expected body content
-            if ($expectedBody !== null && !str_contains($responseBody, $expectedBody)) {
+            if ($expectedBody !== null && ! str_contains($responseBody, $expectedBody)) {
                 return CheckResult::failure(
-                    errorMessage: "Expected body content not found",
+                    errorMessage: 'Expected body content not found',
                     responseTime: $responseTime,
                     statusCode: $statusCode,
                     responseHeaders: $responseHeaders,
@@ -88,7 +88,7 @@ class HttpChecker implements CheckerInterface
             $responseTime = (int) round((microtime(true) - $startTime) * 1000);
 
             return CheckResult::failure(
-                errorMessage: "Connection failed: " . $e->getMessage(),
+                errorMessage: 'Connection failed: '.$e->getMessage(),
                 responseTime: $responseTime,
             );
         } catch (\Exception $e) {
@@ -113,7 +113,7 @@ class HttpChecker implements CheckerInterface
             $host = $parsed['host'] ?? null;
             $port = $parsed['port'] ?? 443;
 
-            if (!$host) {
+            if (! $host) {
                 return null;
             }
 
@@ -134,22 +134,23 @@ class HttpChecker implements CheckerInterface
                 $context
             );
 
-            if (!$stream) {
+            if (! $stream) {
                 return null;
             }
 
             $params = stream_context_get_params($stream);
             $cert = $params['options']['ssl']['peer_certificate'] ?? null;
 
-            if (!$cert) {
+            if (! $cert) {
                 fclose($stream);
+
                 return null;
             }
 
             $certInfo = openssl_x509_parse($cert);
             fclose($stream);
 
-            if (!$certInfo) {
+            if (! $certInfo) {
                 return null;
             }
 

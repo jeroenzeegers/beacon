@@ -15,12 +15,17 @@ class ScheduledReport extends Model
     use BelongsToTeam, HasFactory;
 
     public const TYPE_DAILY_SUMMARY = 'daily_summary';
+
     public const TYPE_WEEKLY_SUMMARY = 'weekly_summary';
+
     public const TYPE_MONTHLY_SUMMARY = 'monthly_summary';
+
     public const TYPE_SLA_REPORT = 'sla_report';
 
     public const FREQUENCY_DAILY = 'daily';
+
     public const FREQUENCY_WEEKLY = 'weekly';
+
     public const FREQUENCY_MONTHLY = 'monthly';
 
     protected $fillable = [

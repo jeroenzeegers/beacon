@@ -96,7 +96,7 @@ class MonitorCheck extends Model
             $unit++;
         }
 
-        return round($size, 2) . ' ' . $units[$unit];
+        return round($size, 2).' '.$units[$unit];
     }
 
     public function getSslExpiryDays(): ?int
@@ -106,6 +106,7 @@ class MonitorCheck extends Model
         }
 
         $expiryDate = \Carbon\Carbon::parse($this->ssl_info['valid_to']);
+
         return (int) now()->diffInDays($expiryDate, false);
     }
 }

@@ -17,12 +17,17 @@ class Incident extends Model
     use BelongsToTeam, HasFactory;
 
     public const STATUS_INVESTIGATING = 'investigating';
+
     public const STATUS_IDENTIFIED = 'identified';
+
     public const STATUS_MONITORING = 'monitoring';
+
     public const STATUS_RESOLVED = 'resolved';
 
     public const SEVERITY_MINOR = 'minor';
+
     public const SEVERITY_MAJOR = 'major';
+
     public const SEVERITY_CRITICAL = 'critical';
 
     protected $fillable = [
@@ -132,7 +137,7 @@ class Incident extends Model
 
     public function getDurationAttribute(): ?int
     {
-        if (!$this->started_at) {
+        if (! $this->started_at) {
             return null;
         }
 

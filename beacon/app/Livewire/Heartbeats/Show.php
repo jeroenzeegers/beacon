@@ -31,7 +31,7 @@ class Show extends Component
 
     public function toggleActive(): void
     {
-        $this->heartbeat->update(['is_active' => !$this->heartbeat->is_active]);
+        $this->heartbeat->update(['is_active' => ! $this->heartbeat->is_active]);
         $this->heartbeat->refresh();
     }
 

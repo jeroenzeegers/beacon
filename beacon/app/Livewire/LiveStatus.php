@@ -13,12 +13,19 @@ use Livewire\Component;
 class LiveStatus extends Component
 {
     public array $monitors = [];
+
     public array $statusCounts = [];
+
     public array $responseTimeData = [];
+
     public array $uptimeData = [];
+
     public array $recentChecks = [];
+
     public int $totalChecksToday = 0;
+
     public float $averageResponseTime = 0;
+
     public float $overallUptime = 0;
 
     public function mount(): void
@@ -198,6 +205,7 @@ class LiveStatus extends Component
 
         if ($totalChecks === 0) {
             $this->overallUptime = 100.0;
+
             return;
         }
 

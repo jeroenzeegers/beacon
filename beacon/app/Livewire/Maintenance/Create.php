@@ -12,12 +12,19 @@ use Livewire\Component;
 class Create extends Component
 {
     public ?int $windowId = null;
+
     public string $name = '';
+
     public string $description = '';
+
     public string $starts_at = '';
+
     public string $ends_at = '';
+
     public bool $suppress_alerts = true;
+
     public bool $show_on_status_page = true;
+
     public array $selected_monitors = [];
 
     public function mount(?int $id = null): void

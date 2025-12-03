@@ -14,8 +14,9 @@ class Dashboard extends Component
     {
         $team = Auth::user()->currentTeam;
 
-        if (!$team->hasStripeId()) {
+        if (! $team->hasStripeId()) {
             session()->flash('error', 'No billing account found. Please subscribe to a plan first.');
+
             return;
         }
 

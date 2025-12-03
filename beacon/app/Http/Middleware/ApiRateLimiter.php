@@ -20,7 +20,7 @@ class ApiRateLimiter
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'message' => 'Unauthenticated.',
             ], 401);
@@ -28,14 +28,14 @@ class ApiRateLimiter
 
         $team = $user->currentTeam;
 
-        if (!$team) {
+        if (! $team) {
             return response()->json([
                 'message' => 'No team selected.',
             ], 403);
         }
 
         // Check if team has API access
-        if (!$this->usageLimiter->hasFeature($team, 'api_access')) {
+        if (! $this->usageLimiter->hasFeature($team, 'api_access')) {
             return response()->json([
                 'message' => 'API access is not available on your current plan.',
                 'upgrade_url' => route('billing.plans'),
@@ -45,7 +45,7 @@ class ApiRateLimiter
         // Get rate limit based on plan
         $rateLimit = $this->usageLimiter->getPlanLimit($team, 'api_rate_limit') ?? 60;
 
-        $key = 'api:' . $team->id;
+        $key = 'api:'.$team->id;
 
         if (RateLimiter::tooManyAttempts($key, $rateLimit)) {
             $seconds = RateLimiter::availableIn($key);

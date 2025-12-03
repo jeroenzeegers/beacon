@@ -46,7 +46,7 @@ class EscalationPolicy extends Model
     {
         $rule = $this->rules()->where('level', $level)->first();
 
-        if (!$rule) {
+        if (! $rule) {
             return [];
         }
 

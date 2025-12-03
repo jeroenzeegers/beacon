@@ -15,8 +15,11 @@ class Create extends Component
     public ?int $projectId = null;
 
     public string $name = '';
+
     public string $description = '';
+
     public string $environment = 'production';
+
     public bool $is_active = true;
 
     public function mount(?int $id = null): void
@@ -49,10 +52,11 @@ class Create extends Component
 
         $team = Auth::user()->currentTeam;
 
-        if (!$this->projectId) {
+        if (! $this->projectId) {
             $usageLimiter = app(UsageLimiter::class);
-            if (!$usageLimiter->canCreateProject($team)) {
+            if (! $usageLimiter->canCreateProject($team)) {
                 session()->flash('error', 'You have reached your project limit. Please upgrade your plan.');
+
                 return;
             }
         }

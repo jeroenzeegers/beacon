@@ -15,8 +15,11 @@ use Livewire\Component;
 class Settings extends Component
 {
     public bool $maintenanceMode = false;
+
     public string $appName = '';
+
     public string $appUrl = '';
+
     public bool $registrationEnabled = true;
 
     public function mount(): void
@@ -41,7 +44,7 @@ class Settings extends Component
             session()->flash('success', 'Maintenance mode disabled.');
         } else {
             Artisan::call('down', [
-                '--secret' => 'beacon-admin-' . now()->timestamp,
+                '--secret' => 'beacon-admin-'.now()->timestamp,
             ]);
             $this->maintenanceMode = true;
             AuditLog::log('maintenance', 'Enabled maintenance mode');
@@ -51,7 +54,7 @@ class Settings extends Component
 
     public function toggleRegistration(): void
     {
-        $this->registrationEnabled = !$this->registrationEnabled;
+        $this->registrationEnabled = ! $this->registrationEnabled;
         Cache::forever('registration_enabled', $this->registrationEnabled);
 
         AuditLog::log(

@@ -9,7 +9,6 @@ use App\Models\MonitorCheck;
 use App\Models\Team;
 use App\Services\UsageLimiter;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class CleanupOldData extends Command
 {
@@ -55,7 +54,7 @@ class CleanupOldData extends Command
                     if ($checksToDelete > 0) {
                         $this->line("  - Found {$checksToDelete} old monitor checks");
 
-                        if (!$isDryRun) {
+                        if (! $isDryRun) {
                             MonitorCheck::whereIn('monitor_id', $monitorIds)
                                 ->where('checked_at', '<', $cutoffDate)
                                 ->delete();
@@ -73,7 +72,7 @@ class CleanupOldData extends Command
                 if ($logsToDelete > 0) {
                     $this->line("  - Found {$logsToDelete} old alert logs");
 
-                    if (!$isDryRun) {
+                    if (! $isDryRun) {
                         AlertLog::where('team_id', $team->id)
                             ->where('created_at', '<', $cutoffDate)
                             ->delete();

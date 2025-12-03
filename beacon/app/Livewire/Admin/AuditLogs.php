@@ -16,8 +16,11 @@ class AuditLogs extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $action = '';
+
     public string $dateFrom = '';
+
     public string $dateTo = '';
 
     public function updatingSearch(): void

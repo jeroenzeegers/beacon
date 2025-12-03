@@ -36,7 +36,7 @@ class BillingService
         $subscription = $team->newSubscription('default', $priceId);
 
         // Apply trial if team hasn't had one before
-        if (!$team->hasEverSubscribed()) {
+        if (! $team->hasEverSubscribed()) {
             $subscription->trialDays(config('billing.trial_days', 14));
         }
 
@@ -54,7 +54,7 @@ class BillingService
     {
         $subscription = $team->subscription('default');
 
-        if (!$subscription) {
+        if (! $subscription) {
             throw new \RuntimeException('Team does not have an active subscription.');
         }
 
@@ -127,7 +127,7 @@ class BillingService
 
         // Pause excess monitors (keep newest active)
         $monitorCount = $team->monitors()->count();
-        if (!$limits->isUnlimited('monitors') && $monitorCount > $limits->monitors) {
+        if (! $limits->isUnlimited('monitors') && $monitorCount > $limits->monitors) {
             $team->monitors()
                 ->where('is_active', true)
                 ->orderByDesc('created_at')
@@ -161,7 +161,7 @@ class BillingService
     {
         $subscription = $team->subscription('default');
 
-        if (!$subscription || !$subscription->active()) {
+        if (! $subscription || ! $subscription->active()) {
             return Plan::where('slug', 'free')->first();
         }
 

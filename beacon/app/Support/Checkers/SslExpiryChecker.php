@@ -41,7 +41,7 @@ class SslExpiryChecker implements CheckerInterface
 
             $responseTime = (int) round((microtime(true) - $startTime) * 1000);
 
-            if (!$stream) {
+            if (! $stream) {
                 return CheckResult::failure(
                     errorMessage: "SSL connection failed: {$errstr} (#{$errno})",
                     responseTime: $responseTime,
@@ -51,11 +51,11 @@ class SslExpiryChecker implements CheckerInterface
             $params = stream_context_get_params($stream);
             $cert = $params['options']['ssl']['peer_certificate'] ?? null;
 
-            if (!$cert) {
+            if (! $cert) {
                 fclose($stream);
 
                 return CheckResult::failure(
-                    errorMessage: "Could not retrieve SSL certificate",
+                    errorMessage: 'Could not retrieve SSL certificate',
                     responseTime: $responseTime,
                 );
             }
@@ -63,9 +63,9 @@ class SslExpiryChecker implements CheckerInterface
             $certInfo = openssl_x509_parse($cert);
             fclose($stream);
 
-            if (!$certInfo) {
+            if (! $certInfo) {
                 return CheckResult::failure(
-                    errorMessage: "Could not parse SSL certificate",
+                    errorMessage: 'Could not parse SSL certificate',
                     responseTime: $responseTime,
                 );
             }
@@ -85,7 +85,7 @@ class SslExpiryChecker implements CheckerInterface
             // Check if certificate is already expired
             if ($daysRemaining < 0) {
                 return CheckResult::failure(
-                    errorMessage: "SSL certificate expired " . abs($daysRemaining) . " days ago",
+                    errorMessage: 'SSL certificate expired '.abs($daysRemaining).' days ago',
                     responseTime: $responseTime,
                     sslInfo: $sslInfo,
                 );

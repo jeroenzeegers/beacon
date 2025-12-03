@@ -44,15 +44,15 @@ class SlackNotificationService
                                 ],
                                 [
                                     'type' => 'mrkdwn',
-                                    'text' => "*Type:*\n" . strtoupper($monitor->type),
+                                    'text' => "*Type:*\n".strtoupper($monitor->type),
                                 ],
                                 [
                                     'type' => 'mrkdwn',
-                                    'text' => "*Previous Status:*\n" . ucfirst($previousStatus),
+                                    'text' => "*Previous Status:*\n".ucfirst($previousStatus),
                                 ],
                                 [
                                     'type' => 'mrkdwn',
-                                    'text' => "*New Status:*\n" . ucfirst($newStatus),
+                                    'text' => "*New Status:*\n".ucfirst($newStatus),
                                 ],
                             ],
                         ],
@@ -68,7 +68,7 @@ class SlackNotificationService
                             'elements' => [
                                 [
                                     'type' => 'mrkdwn',
-                                    'text' => "Detected at " . now()->format('Y-m-d H:i:s T'),
+                                    'text' => 'Detected at '.now()->format('Y-m-d H:i:s T'),
                                 ],
                             ],
                         ],
@@ -77,12 +77,13 @@ class SlackNotificationService
             ],
         ];
 
-        if (!empty($channel->slack_channel)) {
+        if (! empty($channel->slack_channel)) {
             $payload['channel'] = $channel->slack_channel;
         }
 
         try {
             $response = Http::post($channel->webhook_url, $payload);
+
             return $response->successful();
         } catch (\Exception $e) {
             Log::error('Slack notification failed', [
@@ -90,6 +91,7 @@ class SlackNotificationService
                 'monitor_id' => $monitor->id,
                 'error' => $e->getMessage(),
             ]);
+
             return false;
         }
     }
@@ -106,18 +108,20 @@ class SlackNotificationService
             'text' => ':white_check_mark: *Test notification from Beacon*\n\nYour Slack integration is working correctly!',
         ];
 
-        if (!empty($channel->slack_channel)) {
+        if (! empty($channel->slack_channel)) {
             $payload['channel'] = $channel->slack_channel;
         }
 
         try {
             $response = Http::post($channel->webhook_url, $payload);
+
             return $response->successful();
         } catch (\Exception $e) {
             Log::error('Slack test notification failed', [
                 'channel_id' => $channel->id,
                 'error' => $e->getMessage(),
             ]);
+
             return false;
         }
     }

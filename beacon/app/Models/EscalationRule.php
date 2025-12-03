@@ -13,7 +13,9 @@ class EscalationRule extends Model
     use HasFactory;
 
     public const TARGET_USER = 'user';
+
     public const TARGET_ON_CALL_SCHEDULE = 'on_call_schedule';
+
     public const TARGET_ALERT_CHANNEL = 'alert_channel';
 
     protected $fillable = [
@@ -35,7 +37,7 @@ class EscalationRule extends Model
         return $this->belongsTo(EscalationPolicy::class, 'escalation_policy_id');
     }
 
-    public function getTarget(): Model|null
+    public function getTarget(): ?Model
     {
         return match ($this->target_type) {
             self::TARGET_USER => User::find($this->target_id),
@@ -49,12 +51,13 @@ class EscalationRule extends Model
     {
         $target = $this->getTarget();
 
-        if (!$target) {
+        if (! $target) {
             return [];
         }
 
         if ($this->target_type === self::TARGET_ON_CALL_SCHEDULE) {
             $user = $target->getCurrentOnCallUser();
+
             return $user ? [$user] : [];
         }
 

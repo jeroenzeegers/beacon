@@ -16,11 +16,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(CheckerFactory::class, function () {
-            return new CheckerFactory();
+            return new CheckerFactory;
         });
 
         $this->app->singleton(AlertSenderFactory::class, function () {
-            return new AlertSenderFactory();
+            return new AlertSenderFactory;
         });
     }
 

@@ -16,23 +16,35 @@ class Create extends Component
     public ?int $monitorId = null;
 
     public string $name = '';
+
     public string $type = 'http';
+
     public string $target = '';
+
     public ?int $port = null;
+
     public ?int $project_id = null;
+
     public int $check_interval = 300;
+
     public int $timeout = 30;
+
     public int $failure_threshold = 3;
 
     // HTTP options
     public string $http_method = 'GET';
+
     public array $http_headers = [];
+
     public string $http_body = '';
+
     public string $expected_status = '200,201,204,301,302';
+
     public string $expected_body = '';
 
     // SSL options
     public int $ssl_warning_days = 30;
+
     public int $ssl_critical_days = 7;
 
     public function mount(?int $id = null): void
@@ -87,17 +99,19 @@ class Create extends Component
         $team = Auth::user()->currentTeam;
 
         // Check usage limits for new monitors
-        if (!$this->monitorId) {
+        if (! $this->monitorId) {
             $usageLimiter = app(UsageLimiter::class);
-            if (!$usageLimiter->canCreateMonitor($team)) {
+            if (! $usageLimiter->canCreateMonitor($team)) {
                 session()->flash('error', 'You have reached your monitor limit. Please upgrade your plan.');
+
                 return;
             }
 
             // Check interval limit
-            if (!$usageLimiter->canUseCheckInterval($team, $this->check_interval)) {
+            if (! $usageLimiter->canUseCheckInterval($team, $this->check_interval)) {
                 $minInterval = $usageLimiter->getMinCheckInterval($team);
                 session()->flash('error', "Your plan requires a minimum check interval of {$minInterval} seconds.");
+
                 return;
             }
         }

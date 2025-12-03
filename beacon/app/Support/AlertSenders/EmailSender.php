@@ -14,7 +14,7 @@ class EmailSender implements AlertSenderInterface
     {
         $email = $channel->getConfigValue('email');
 
-        if (!$email) {
+        if (! $email) {
             return false;
         }
 
@@ -41,6 +41,6 @@ class EmailSender implements AlertSenderInterface
             default => '📢',
         };
 
-        return "{$statusEmoji} [{$monitor->name}] " . ucfirst(str_replace('_', ' ', $trigger));
+        return "{$statusEmoji} [{$monitor->name}] ".ucfirst(str_replace('_', ' ', $trigger));
     }
 }

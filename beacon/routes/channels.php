@@ -16,6 +16,7 @@ Broadcast::channel('team.{teamId}', function ($user, $teamId) {
 // Monitor-specific channel
 Broadcast::channel('monitor.{monitorId}', function ($user, $monitorId) {
     $monitor = \App\Models\Monitor::find($monitorId);
+
     return $monitor && $user->teams()->where('team_id', $monitor->team_id)->exists();
 });
 
