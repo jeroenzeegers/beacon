@@ -126,11 +126,11 @@
                                 Current Plan
                             </button>
                         @elseif($plan->price === 0)
-                            <button wire:click="subscribe('{{ $plan->stripe_price_id }}')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <button wire:click="downgradeToFree" wire:confirm="Are you sure you want to cancel your subscription?" class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Downgrade to Free
                             </button>
                         @else
-                            <button wire:click="subscribe('{{ $plan->stripe_price_id }}')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white {{ $plan->is_popular ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-gray-800 hover:bg-gray-900' }} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <button wire:click="checkout({{ $plan->id }})" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white {{ $plan->is_popular ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-gray-800 hover:bg-gray-900' }} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 {{ $subscribed ? 'Switch Plan' : 'Start Free Trial' }}
                             </button>
                         @endif

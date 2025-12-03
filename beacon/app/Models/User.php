@@ -22,6 +22,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'current_team_id',
         'timezone',
+        'is_admin',
+        'last_login_at',
+        'last_login_ip',
     ];
 
     protected $hidden = [
@@ -34,7 +37,28 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Check if user is a platform admin.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->is_admin === true;
+    }
+
+    /**
+     * Record login information.
+     */
+    public function recordLogin(string $ip): void
+    {
+        $this->update([
+            'last_login_at' => now(),
+            'last_login_ip' => $ip,
+        ]);
     }
 
     /**

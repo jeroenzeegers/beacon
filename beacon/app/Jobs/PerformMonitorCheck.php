@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Events\MonitorCheckCompleted;
+use App\Events\MonitorStatusChanged;
 use App\Models\Monitor;
 use App\Models\MonitorCheck;
 use App\Support\Checkers\CheckerFactory;
@@ -55,9 +57,18 @@ class PerformMonitorCheck implements ShouldQueue
                 'response_time' => $result->responseTime,
             ]);
 
+            // Get fresh monitor and latest check
+            $freshMonitor = $this->monitor->fresh();
+            $latestCheck = $freshMonitor->checks()->latest()->first();
+
+            // Broadcast check completed event
+            if ($latestCheck) {
+                broadcast(new MonitorCheckCompleted($freshMonitor, $latestCheck));
+            }
+
             // Dispatch alert if status changed
-            if ($previousStatus !== $this->monitor->fresh()->status) {
-                $this->handleStatusChange($previousStatus, $this->monitor->fresh()->status);
+            if ($previousStatus !== $freshMonitor->status) {
+                $this->handleStatusChange($previousStatus, $freshMonitor->status);
             }
         } catch (\Exception $e) {
             Log::error("Monitor check failed", [
@@ -80,6 +91,9 @@ class PerformMonitorCheck implements ShouldQueue
             'previous_status' => $previousStatus,
             'new_status' => $newStatus,
         ]);
+
+        // Broadcast status change event
+        broadcast(new MonitorStatusChanged($this->monitor->fresh(), $previousStatus, $newStatus));
 
         SendAlert::dispatch($this->monitor, $previousStatus, $newStatus);
     }

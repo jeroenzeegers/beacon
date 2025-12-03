@@ -1,6 +1,15 @@
 <?php
 
 use App\Http\Controllers\StatusPageController;
+use App\Livewire\Admin\Analytics as AdminAnalytics;
+use App\Livewire\Admin\AuditLogs;
+use App\Livewire\Admin\Dashboard as AdminDashboard;
+use App\Livewire\Admin\Plans as AdminPlans;
+use App\Livewire\Admin\Settings as AdminSettings;
+use App\Livewire\Admin\Subscriptions as AdminSubscriptions;
+use App\Livewire\Admin\SystemHealth;
+use App\Livewire\Admin\Teams as AdminTeams;
+use App\Livewire\Admin\Users as AdminUsers;
 use App\Livewire\Billing\Dashboard as BillingDashboard;
 use App\Livewire\Billing\Plans;
 use App\Livewire\Dashboard;
@@ -12,7 +21,11 @@ use App\Livewire\Projects\Index as ProjectIndex;
 use App\Livewire\Projects\Show as ProjectShow;
 use App\Livewire\Teams\Members;
 use App\Livewire\Teams\Settings;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
+
+// Broadcasting authentication routes
+Broadcast::routes(['middleware' => ['web', 'auth']]);
 
 Route::view('/', 'welcome');
 
@@ -49,5 +62,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Public status pages
 Route::get('/status/{slug}', [StatusPageController::class, 'show'])->name('status-page.show');
 Route::get('/status/{slug}/api', [StatusPageController::class, 'apiStatus'])->name('status-page.api');
+
+// Admin routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', AdminDashboard::class)->name('dashboard');
+    Route::get('/users', AdminUsers::class)->name('users');
+    Route::get('/teams', AdminTeams::class)->name('teams');
+    Route::get('/subscriptions', AdminSubscriptions::class)->name('subscriptions');
+    Route::get('/plans', AdminPlans::class)->name('plans');
+    Route::get('/settings', AdminSettings::class)->name('settings');
+    Route::get('/system-health', SystemHealth::class)->name('system-health');
+    Route::get('/analytics', AdminAnalytics::class)->name('analytics');
+    Route::get('/audit-logs', AuditLogs::class)->name('audit-logs');
+});
 
 require __DIR__.'/auth.php';

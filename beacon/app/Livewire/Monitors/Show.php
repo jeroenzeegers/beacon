@@ -19,6 +19,39 @@ class Show extends Component
 
     public int $chartDays = 7;
 
+    /**
+     * Get the listeners for the component.
+     */
+    public function getListeners(): array
+    {
+        return [
+            "echo-private:monitor.{$this->monitor->id},monitor.status.changed" => 'handleStatusChange',
+            "echo-private:monitor.{$this->monitor->id},monitor.check.completed" => 'handleCheckCompleted',
+        ];
+    }
+
+    /**
+     * Handle monitor status change.
+     */
+    public function handleStatusChange(array $data): void
+    {
+        $this->monitor->refresh();
+
+        $this->dispatch('notify', [
+            'type' => $data['monitor']['status'] === 'up' ? 'success' : 'error',
+            'message' => "Monitor is now {$data['monitor']['status']}",
+        ]);
+    }
+
+    /**
+     * Handle check completed.
+     */
+    public function handleCheckCompleted(array $data): void
+    {
+        $this->monitor->refresh();
+        $this->resetPage();
+    }
+
     public function mount(int $id): void
     {
         $this->monitor = Monitor::where('team_id', Auth::user()->current_team_id)

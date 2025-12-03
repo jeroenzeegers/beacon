@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NewUserRegistered;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,9 @@ new #[Layout('layouts.guest')] class extends Component
         // Create a default team for the new user
         $user->createTeam($user->name . "'s Team");
 
+        // Broadcast new user event for admin dashboard
+        broadcast(new NewUserRegistered($user));
+
         Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
@@ -40,52 +44,60 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <form wire:submit="register">
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-white">Create your account</h1>
+        <p class="text-gray-400 mt-2">Start your 14-day free trial. No credit card required.</p>
+    </div>
+
+    <form wire:submit="register" class="space-y-5">
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-text-input wire:model="name" id="name" type="text" name="name" required autofocus autocomplete="name" placeholder="John Doe" />
+            <x-input-error :messages="$errors->get('name')" />
         </div>
 
         <!-- Email Address -->
-        <div class="mt-4">
+        <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-text-input wire:model="email" id="email" type="email" name="email" required autocomplete="username" placeholder="you@example.com" />
+            <x-input-error :messages="$errors->get('email')" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
+        <div>
             <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <x-text-input wire:model="password" id="password" type="password" name="password" required autocomplete="new-password" placeholder="••••••••" />
+            <x-input-error :messages="$errors->get('password')" />
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
+        <div>
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            <x-text-input wire:model="password_confirmation" id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••" />
+            <x-input-error :messages="$errors->get('password_confirmation')" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}" wire:navigate>
-                {{ __('Already registered?') }}
+        <!-- Submit Button -->
+        <x-primary-button class="mt-2">
+            {{ __('Create account') }}
+        </x-primary-button>
+
+        <!-- Terms -->
+        <p class="text-center text-gray-500 text-xs">
+            By creating an account, you agree to our
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+            and
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+        </p>
+
+        <!-- Login Link -->
+        <p class="text-center text-gray-400 text-sm pt-2">
+            Already have an account?
+            <a href="{{ route('login') }}" class="text-indigo-400 hover:text-indigo-300 font-medium transition-colors" wire:navigate>
+                Sign in
             </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
+        </p>
     </form>
 </div>

@@ -48,6 +48,17 @@ class Plans extends Component
         }
     }
 
+    public function downgradeToFree(): void
+    {
+        $team = Auth::user()->currentTeam;
+        $subscription = $team->subscription('default');
+
+        if ($subscription) {
+            $subscription->cancel();
+            session()->flash('success', 'Your subscription has been cancelled. You will have access until the end of your billing period.');
+        }
+    }
+
     public function render()
     {
         $team = Auth::user()->currentTeam;
@@ -57,11 +68,13 @@ class Plans extends Component
             ->get();
 
         $currentPlan = $team->getCurrentPlan();
+        $subscribed = $team->subscribed('default');
 
         return view('livewire.billing.plans', [
             'plans' => $plans,
             'currentPlan' => $currentPlan,
             'team' => $team,
+            'subscribed' => $subscribed,
         ])->layout('layouts.app');
     }
 }
