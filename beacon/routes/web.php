@@ -13,13 +13,20 @@ use App\Livewire\Admin\Users as AdminUsers;
 use App\Livewire\Billing\Dashboard as BillingDashboard;
 use App\Livewire\Billing\Plans;
 use App\Livewire\Dashboard;
+use App\Livewire\Heartbeats\Create as HeartbeatCreate;
+use App\Livewire\Heartbeats\Index as HeartbeatIndex;
+use App\Livewire\Heartbeats\Show as HeartbeatShow;
 use App\Livewire\LiveStatus;
+use App\Livewire\Maintenance\Create as MaintenanceCreate;
+use App\Livewire\Maintenance\Index as MaintenanceIndex;
 use App\Livewire\Monitors\Create as MonitorCreate;
 use App\Livewire\Monitors\Index as MonitorIndex;
 use App\Livewire\Monitors\Show as MonitorShow;
 use App\Livewire\Projects\Create as ProjectCreate;
 use App\Livewire\Projects\Index as ProjectIndex;
 use App\Livewire\Projects\Show as ProjectShow;
+use App\Livewire\Reports\Create as ReportCreate;
+use App\Livewire\Reports\Index as ReportIndex;
 use App\Livewire\Teams\Members;
 use App\Livewire\Teams\Settings;
 use Illuminate\Support\Facades\Broadcast;
@@ -51,6 +58,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/projects/create', ProjectCreate::class)->name('projects.create');
     Route::get('/projects/{id}', ProjectShow::class)->name('projects.show');
     Route::get('/projects/{id}/edit', ProjectCreate::class)->name('projects.edit');
+
+    // Heartbeats (Cron Monitoring)
+    Route::get('/heartbeats', HeartbeatIndex::class)->name('heartbeats.index');
+    Route::get('/heartbeats/create', HeartbeatCreate::class)->name('heartbeats.create');
+    Route::get('/heartbeats/{id}', HeartbeatShow::class)->name('heartbeats.show');
+    Route::get('/heartbeats/{id}/edit', HeartbeatCreate::class)->name('heartbeats.edit');
+
+    // Maintenance Windows
+    Route::get('/maintenance', MaintenanceIndex::class)->name('maintenance.index');
+    Route::get('/maintenance/create', MaintenanceCreate::class)->name('maintenance.create');
+    Route::get('/maintenance/{id}/edit', MaintenanceCreate::class)->name('maintenance.edit');
+
+    // Scheduled Reports
+    Route::get('/reports', ReportIndex::class)->name('reports.index');
+    Route::get('/reports/create', ReportCreate::class)->name('reports.create');
+    Route::get('/reports/{id}/edit', ReportCreate::class)->name('reports.edit');
 
     // Team
     Route::get('/team/settings', Settings::class)->name('team.settings');
