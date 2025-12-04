@@ -133,10 +133,10 @@
     <!-- Uptime Chart & Monitor Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <!-- Uptime by Monitor -->
-        <div class="glass rounded-xl p-6 border border-white/10">
+        <div class="glass rounded-2xl p-6">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-lg font-semibold text-white">Uptime by Monitor</h2>
-                <span class="text-sm text-slate-400">Last 30 days</span>
+                <span class="text-xs text-slate-500 bg-white/5 px-3 py-1 rounded-full">Last 30 days</span>
             </div>
             <div class="h-72" wire:ignore>
                 <canvas id="uptimeChart"></canvas>
@@ -144,7 +144,7 @@
         </div>
 
         <!-- Live Monitor Grid -->
-        <div class="glass rounded-xl p-6 border border-white/10">
+        <div class="glass rounded-2xl p-6">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-lg font-semibold text-white">Monitor Status Grid</h2>
             </div>
@@ -194,10 +194,13 @@
     </div>
 
     <!-- Recent Checks Table -->
-    <div class="glass rounded-xl p-6 border border-white/10">
+    <div class="glass rounded-2xl p-6">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-lg font-semibold text-white">Recent Checks</h2>
-            <span class="text-sm text-slate-400">Live feed</span>
+            <span class="text-xs text-slate-500 bg-white/5 px-3 py-1 rounded-full flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>
+                Live feed
+            </span>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full">

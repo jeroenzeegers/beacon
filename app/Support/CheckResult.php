@@ -43,6 +43,7 @@ class CheckResult
         ?int $responseTime = null,
         ?int $statusCode = null,
         ?array $responseHeaders = null,
+        ?array $sslInfo = null,
     ): self {
         return new self(
             status: Monitor::STATUS_DOWN,
@@ -50,6 +51,7 @@ class CheckResult
             statusCode: $statusCode,
             errorMessage: $errorMessage,
             responseHeaders: $responseHeaders,
+            sslInfo: $sslInfo,
         );
     }
 

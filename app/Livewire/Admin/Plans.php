@@ -22,11 +22,13 @@ class Plans extends Component
 
     public string $name = '';
 
-    public string $stripe_price_id = '';
+    public string $stripe_price_id_monthly = '';
 
-    public int $price = 0;
+    public string $stripe_price_id_yearly = '';
 
-    public string $billing_period = 'monthly';
+    public int $price_monthly = 0;
+
+    public int $price_yearly = 0;
 
     public bool $is_active = true;
 
@@ -53,9 +55,10 @@ class Plans extends Component
     {
         return [
             'name' => 'required|string|max:255',
-            'stripe_price_id' => 'nullable|string|max:255',
-            'price' => 'required|integer|min:0',
-            'billing_period' => 'required|in:monthly,yearly',
+            'stripe_price_id_monthly' => 'nullable|string|max:255',
+            'stripe_price_id_yearly' => 'nullable|string|max:255',
+            'price_monthly' => 'required|integer|min:0',
+            'price_yearly' => 'required|integer|min:0',
             'is_active' => 'boolean',
             'max_monitors' => 'required|integer|min:1',
             'max_team_members' => 'required|integer|min:1',
@@ -72,13 +75,13 @@ class Plans extends Component
     public function render(): View
     {
         return view('livewire.admin.plans', [
-            'plans' => Plan::with('limits')->orderBy('price')->get(),
+            'plans' => Plan::with('limits')->orderBy('sort_order')->orderBy('price_monthly')->get(),
         ]);
     }
 
     public function openCreateModal(): void
     {
-        $this->reset(['name', 'stripe_price_id', 'price', 'billing_period', 'is_active', 'max_monitors', 'max_team_members', 'check_interval_minutes', 'retention_days', 'api_access', 'custom_status_page', 'sms_alerts', 'slack_integration', 'webhook_integration']);
+        $this->reset(['name', 'stripe_price_id_monthly', 'stripe_price_id_yearly', 'price_monthly', 'price_yearly', 'is_active', 'max_monitors', 'max_team_members', 'check_interval_minutes', 'retention_days', 'api_access', 'custom_status_page', 'sms_alerts', 'slack_integration', 'webhook_integration']);
         $this->showCreateModal = true;
     }
 
@@ -88,9 +91,10 @@ class Plans extends Component
 
         $this->editingPlanId = $plan->id;
         $this->name = $plan->name;
-        $this->stripe_price_id = $plan->stripe_price_id ?? '';
-        $this->price = $plan->price;
-        $this->billing_period = $plan->billing_period;
+        $this->stripe_price_id_monthly = $plan->stripe_price_id_monthly ?? '';
+        $this->stripe_price_id_yearly = $plan->stripe_price_id_yearly ?? '';
+        $this->price_monthly = $plan->price_monthly;
+        $this->price_yearly = $plan->price_yearly;
         $this->is_active = $plan->is_active;
 
         if ($plan->limits) {
@@ -121,9 +125,11 @@ class Plans extends Component
 
         $plan = Plan::create([
             'name' => $this->name,
-            'stripe_price_id' => $this->stripe_price_id ?: null,
-            'price' => $this->price,
-            'billing_period' => $this->billing_period,
+            'slug' => \Illuminate\Support\Str::slug($this->name),
+            'stripe_price_id_monthly' => $this->stripe_price_id_monthly ?: null,
+            'stripe_price_id_yearly' => $this->stripe_price_id_yearly ?: null,
+            'price_monthly' => $this->price_monthly,
+            'price_yearly' => $this->price_yearly,
             'is_active' => $this->is_active,
         ]);
 
@@ -154,9 +160,10 @@ class Plans extends Component
 
         $plan->update([
             'name' => $this->name,
-            'stripe_price_id' => $this->stripe_price_id ?: null,
-            'price' => $this->price,
-            'billing_period' => $this->billing_period,
+            'stripe_price_id_monthly' => $this->stripe_price_id_monthly ?: null,
+            'stripe_price_id_yearly' => $this->stripe_price_id_yearly ?: null,
+            'price_monthly' => $this->price_monthly,
+            'price_yearly' => $this->price_yearly,
             'is_active' => $this->is_active,
         ]);
 

@@ -1,52 +1,57 @@
 <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+    <h2 class="text-2xl font-bold text-gradient">
         {{ $projectId ? __('Edit Project') : __('Create Project') }}
     </h2>
 </x-slot>
 
-<div class="py-12">
-    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white shadow rounded-lg">
+<div class="py-8">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="glass rounded-2xl overflow-hidden scroll-reveal">
             <form wire:submit="save">
                 <div class="p-6 space-y-6">
                     <!-- Name -->
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                        <input wire:model="name" type="text" id="name" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="My Project">
-                        @error('name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <div class="scroll-reveal">
+                        <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                        <input wire:model="name" type="text" id="name" class="input-liquid block w-full" placeholder="My Project">
+                        @error('name') <p class="mt-2 text-sm text-red-400">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Description -->
-                    <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea wire:model="description" id="description" rows="3" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="A brief description of this project..."></textarea>
-                        @error('description') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <div class="scroll-reveal">
+                        <label for="description" class="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                        <textarea wire:model="description" id="description" rows="3" class="input-liquid block w-full" placeholder="A brief description of this project..."></textarea>
+                        @error('description') <p class="mt-2 text-sm text-red-400">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Environment -->
-                    <div>
-                        <label for="environment" class="block text-sm font-medium text-gray-700">Environment</label>
-                        <select wire:model="environment" id="environment" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div class="scroll-reveal">
+                        <label for="environment" class="block text-sm font-medium text-gray-300 mb-2">Environment</label>
+                        <select wire:model="environment" id="environment" class="input-liquid block w-full">
                             @foreach($environments as $value => $label)
                                 <option value="{{ $value }}">{{ $label }}</option>
                             @endforeach
                         </select>
-                        @error('environment') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        @error('environment') <p class="mt-2 text-sm text-red-400">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Active -->
-                    <div class="flex items-center">
-                        <input wire:model="is_active" type="checkbox" id="is_active" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                        <label for="is_active" class="ml-2 block text-sm text-gray-900">Active</label>
+                    <div class="flex items-center gap-3 scroll-reveal">
+                        <input wire:model="is_active" type="checkbox" id="is_active" class="w-5 h-5 rounded bg-white/5 border-white/10 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-0">
+                        <label for="is_active" class="text-sm text-gray-300">Active</label>
                     </div>
                 </div>
 
-                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3 rounded-b-lg">
-                    <a href="{{ route('projects.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" wire:navigate>
+                <div class="px-6 py-4 bg-white/[0.02] border-t border-white/5 flex justify-end gap-3">
+                    <a href="{{ route('projects.index') }}" class="inline-flex items-center px-4 py-2.5 rounded-xl text-sm font-medium text-gray-300 bg-white/5 border border-white/10 hover:bg-white/10 transition-colors focus-ring" wire:navigate>
                         Cancel
                     </a>
-                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        {{ $projectId ? 'Update Project' : 'Create Project' }}
+                    <button type="submit" class="btn-liquid btn-magnetic ripple-effect inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium">
+                        <span class="btn-magnetic-inner flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            {{ $projectId ? 'Update Project' : 'Create Project' }}
+                        </span>
                     </button>
                 </div>
             </form>
