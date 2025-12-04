@@ -332,13 +332,16 @@
             </main>
         </div>
 
+        <!-- Chart.js for data visualization -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
         <!-- Pusher & Echo for real-time updates -->
         <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.16.1/dist/echo.iife.js"></script>
         <script>
             const EchoConstructor = Echo.default ?? Echo;
             window.Echo = new EchoConstructor({
-                broadcaster: 'reverb',
+                broadcaster: 'pusher',
                 key: '{{ config('reverb.apps.apps.0.key') }}',
                 wsHost: '{{ config('reverb.apps.apps.0.options.host') }}',
                 wsPort: {{ config('reverb.apps.apps.0.options.port', 8080) }},
