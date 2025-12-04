@@ -31,6 +31,8 @@ class Create extends Component
 
     public int $failure_threshold = 3;
 
+    public bool $is_active = true;
+
     // HTTP options
     public string $http_method = 'GET';
 
@@ -62,6 +64,7 @@ class Create extends Component
             $this->check_interval = $monitor->check_interval;
             $this->timeout = $monitor->timeout;
             $this->failure_threshold = $monitor->failure_threshold;
+            $this->is_active = $monitor->is_active;
 
             if ($monitor->http_options) {
                 $this->http_method = $monitor->http_options['method'] ?? 'GET';
@@ -145,6 +148,7 @@ class Create extends Component
             'check_interval' => $this->check_interval,
             'timeout' => $this->timeout,
             'failure_threshold' => $this->failure_threshold,
+            'is_active' => $this->is_active,
             'http_options' => $httpOptions,
             'ssl_options' => $sslOptions,
         ];

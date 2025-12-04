@@ -132,10 +132,10 @@
                         @error('project_id') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
-                    <!-- Enabled -->
+                    <!-- Active -->
                     <div class="flex items-center">
-                        <input wire:model="is_enabled" type="checkbox" id="is_enabled" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                        <label for="is_enabled" class="ml-2 block text-sm text-gray-900">Enable monitoring</label>
+                        <input wire:model="is_active" type="checkbox" id="is_active" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="is_active" class="ml-2 block text-sm text-gray-900">Enable monitoring</label>
                     </div>
                 </div>
 

@@ -43,10 +43,17 @@ class Show extends Component
             'monitors_degraded' => $monitors->where('status', Monitor::STATUS_DEGRADED)->count(),
         ];
 
+        // Get active incidents for monitors in this project
+        $monitorIds = $monitors->pluck('id');
+        $activeIncidents = \App\Models\Incident::whereIn('monitor_id', $monitorIds)
+            ->whereNull('resolved_at')
+            ->get();
+
         return view('livewire.projects.show', [
             'monitors' => $monitors,
             'stats' => $stats,
             'overallStatus' => $this->project->overall_status,
+            'activeIncidents' => $activeIncidents,
         ])->layout('layouts.app');
     }
 }
