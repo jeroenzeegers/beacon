@@ -154,12 +154,12 @@ class LiveStatus extends Component
             ->where('is_active', true)
             ->pluck('id');
 
-        // Get hourly averages for last 24 hours (PostgreSQL compatible)
+        // Get hourly averages for last 24 hours (MySQL compatible)
         $this->responseTimeData = MonitorCheck::whereIn('monitor_id', $monitorIds)
             ->where('checked_at', '>=', now()->subHours(24))
             ->whereNotNull('response_time')
             ->select(
-                DB::raw("TO_CHAR(checked_at, 'YYYY-MM-DD HH24:00:00') as hour"),
+                DB::raw("DATE_FORMAT(checked_at, '%Y-%m-%d %H:00:00') as hour"),
                 DB::raw('AVG(response_time) as avg_response_time'),
                 DB::raw('MIN(response_time) as min_response_time'),
                 DB::raw('MAX(response_time) as max_response_time')
