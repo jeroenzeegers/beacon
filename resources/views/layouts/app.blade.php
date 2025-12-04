@@ -336,7 +336,8 @@
         <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.16.1/dist/echo.iife.js"></script>
         <script>
-            window.Echo = new Echo({
+            const EchoConstructor = Echo.default ?? Echo;
+            window.Echo = new EchoConstructor({
                 broadcaster: 'reverb',
                 key: '{{ config('reverb.apps.apps.0.key') }}',
                 wsHost: '{{ config('reverb.apps.apps.0.options.host') }}',
