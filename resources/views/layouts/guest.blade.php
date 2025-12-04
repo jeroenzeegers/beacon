@@ -52,7 +52,6 @@
         </style>
 
         @livewireStyles
-        @fluxStyles
     </head>
     <body class="font-sans antialiased gradient-mesh text-white min-h-screen">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 px-4">
@@ -81,6 +80,5 @@
         </div>
 
         @livewireScripts
-        @fluxScripts
     </body>
 </html>

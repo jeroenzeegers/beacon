@@ -57,12 +57,12 @@ new #[Layout('layouts.guest')] class extends Component
     @endif
 
     <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <flux:button wire:click="sendVerification" variant="primary">
+        <x-primary-button wire:click="sendVerification">
             {{ __('Resend Verification Email') }}
-        </flux:button>
+        </x-primary-button>
 
-        <flux:button wire:click="logout" variant="ghost">
+        <button wire:click="logout" type="submit" class="text-sm text-slate-400 hover:text-white transition-colors focus:outline-none rounded-lg px-3 py-1.5">
             {{ __('Log Out') }}
-        </flux:button>
+        </button>
     </div>
 </div>

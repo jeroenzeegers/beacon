@@ -53,20 +53,20 @@ new #[Layout('layouts.guest')] class extends Component
 
     <form wire:submit="sendPasswordResetLink" class="space-y-6">
         <!-- Email Address -->
-        <flux:field>
-            <flux:label>{{ __('Email') }}</flux:label>
-            <flux:input wire:model="email" type="email" placeholder="you@example.com" autofocus />
-            <flux:error name="email" />
-        </flux:field>
+        <div>
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input wire:model="email" id="email" type="email" name="email" required autofocus placeholder="you@example.com" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
 
-        <flux:button type="submit" variant="primary" class="w-full">
+        <x-primary-button>
             {{ __('Send Reset Link') }}
-        </flux:button>
+        </x-primary-button>
 
         <p class="text-center text-slate-400 text-sm">
-            <flux:link href="{{ route('login') }}" wire:navigate>
+            <a href="{{ route('login') }}" class="text-indigo-400 hover:text-indigo-300 transition-colors" wire:navigate>
                 Back to sign in
-            </flux:link>
+            </a>
         </p>
     </form>
 </div>

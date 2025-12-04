@@ -52,52 +52,52 @@ new #[Layout('layouts.guest')] class extends Component
 
     <form wire:submit="register" class="space-y-5">
         <!-- Name -->
-        <flux:field>
-            <flux:label>{{ __('Name') }}</flux:label>
-            <flux:input wire:model="name" type="text" placeholder="John Doe" autofocus autocomplete="name" />
-            <flux:error name="name" />
-        </flux:field>
+        <div>
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input wire:model="name" id="name" type="text" name="name" required autofocus autocomplete="name" placeholder="John Doe" />
+            <x-input-error :messages="$errors->get('name')" />
+        </div>
 
         <!-- Email Address -->
-        <flux:field>
-            <flux:label>{{ __('Email') }}</flux:label>
-            <flux:input wire:model="email" type="email" placeholder="you@example.com" autocomplete="username" />
-            <flux:error name="email" />
-        </flux:field>
+        <div>
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input wire:model="email" id="email" type="email" name="email" required autocomplete="username" placeholder="you@example.com" />
+            <x-input-error :messages="$errors->get('email')" />
+        </div>
 
         <!-- Password -->
-        <flux:field>
-            <flux:label>{{ __('Password') }}</flux:label>
-            <flux:input wire:model="password" type="password" placeholder="••••••••" autocomplete="new-password" />
-            <flux:error name="password" />
-        </flux:field>
+        <div>
+            <x-input-label for="password" :value="__('Password')" />
+            <x-text-input wire:model="password" id="password" type="password" name="password" required autocomplete="new-password" placeholder="••••••••" />
+            <x-input-error :messages="$errors->get('password')" />
+        </div>
 
         <!-- Confirm Password -->
-        <flux:field>
-            <flux:label>{{ __('Confirm Password') }}</flux:label>
-            <flux:input wire:model="password_confirmation" type="password" placeholder="••••••••" autocomplete="new-password" />
-            <flux:error name="password_confirmation" />
-        </flux:field>
+        <div>
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-text-input wire:model="password_confirmation" id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••" />
+            <x-input-error :messages="$errors->get('password_confirmation')" />
+        </div>
 
         <!-- Submit Button -->
-        <flux:button type="submit" variant="primary" class="w-full mt-2">
+        <x-primary-button class="mt-2">
             {{ __('Create account') }}
-        </flux:button>
+        </x-primary-button>
 
         <!-- Terms -->
         <p class="text-center text-slate-500 text-xs">
             By creating an account, you agree to our
-            <flux:link href="#">Terms of Service</flux:link>
+            <a href="#" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a>
             and
-            <flux:link href="#">Privacy Policy</flux:link>
+            <a href="#" class="text-slate-400 hover:text-white transition-colors">Privacy Policy</a>
         </p>
 
         <!-- Login Link -->
         <p class="text-center text-slate-400 text-sm pt-2">
             Already have an account?
-            <flux:link href="{{ route('login') }}" wire:navigate>
+            <a href="{{ route('login') }}" class="text-indigo-400 hover:text-indigo-300 font-medium transition-colors" wire:navigate>
                 Sign in
-            </flux:link>
+            </a>
         </p>
     </form>
 </div>
