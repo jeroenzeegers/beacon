@@ -46,7 +46,7 @@ class MetricsManager
 
         // Add custom metrics if any exist
         $customMetrics = $this->getCustomMetrics();
-        if (!empty($customMetrics['gauges']) || !empty($customMetrics['counters'])) {
+        if (! empty($customMetrics['gauges']) || ! empty($customMetrics['counters'])) {
             $metrics['custom'] = $customMetrics;
         }
 
@@ -59,7 +59,7 @@ class MetricsManager
     public function gauge(string $name, float|int $value): void
     {
         $this->customGauges[$name] = $value;
-        $this->storage->gauge('custom:' . $name, $value);
+        $this->storage->gauge('custom:'.$name, $value);
     }
 
     /**
@@ -67,7 +67,7 @@ class MetricsManager
      */
     public function increment(string $name, int $amount = 1): int
     {
-        return $this->storage->increment('custom:counter:' . $name, $amount);
+        return $this->storage->increment('custom:counter:'.$name, $amount);
     }
 
     /**
@@ -75,7 +75,7 @@ class MetricsManager
      */
     public function timing(string $name, float $milliseconds): void
     {
-        $this->storage->timing('custom:timing:' . $name, $milliseconds);
+        $this->storage->timing('custom:timing:'.$name, $milliseconds);
     }
 
     /**
@@ -121,10 +121,10 @@ class MetricsManager
     {
         $this->collectors = [
             'requests' => new RequestCollector($this->storage),
-            'system' => new SystemCollector(),
+            'system' => new SystemCollector,
             'database' => new DatabaseCollector($this->storage),
             'cache' => new CacheCollector($this->storage),
-            'queue' => new QueueCollector(),
+            'queue' => new QueueCollector,
             'errors' => new ErrorCollector($this->storage),
         ];
     }

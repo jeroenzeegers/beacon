@@ -24,7 +24,7 @@ class MetricsAuthMiddleware
             default => false,
         };
 
-        if (!$authenticated) {
+        if (! $authenticated) {
             return response()->json([
                 'error' => 'Unauthorized',
                 'message' => 'Invalid or missing authentication credentials.',

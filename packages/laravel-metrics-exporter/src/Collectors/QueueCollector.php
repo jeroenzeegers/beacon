@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Beacon\MetricsExporter\Collectors;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 
 class QueueCollector implements CollectorInterface

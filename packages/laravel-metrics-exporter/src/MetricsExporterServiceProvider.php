@@ -21,7 +21,7 @@ class MetricsExporterServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/metrics-exporter.php',
+            __DIR__.'/../config/metrics-exporter.php',
             'metrics-exporter'
         );
 
@@ -57,15 +57,15 @@ class MetricsExporterServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        if (!config('metrics-exporter.enabled', true)) {
+        if (! config('metrics-exporter.enabled', true)) {
             return;
         }
 
         $this->publishes([
-            __DIR__ . '/../config/metrics-exporter.php' => config_path('metrics-exporter.php'),
+            __DIR__.'/../config/metrics-exporter.php' => config_path('metrics-exporter.php'),
         ], 'metrics-exporter-config');
 
-        $this->loadRoutesFrom(__DIR__ . '/routes.php');
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         // Register request tracking middleware
         if (config('metrics-exporter.collectors.requests', true)) {

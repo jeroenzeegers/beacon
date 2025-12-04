@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\File;
 class FileStorage implements StorageInterface
 {
     private string $path;
+
     private string $prefix;
+
     private int $retentionMinutes;
+
     private array $cache = [];
+
     private bool $dirty = false;
 
     public function __construct(string $path, string $prefix = 'beacon_metrics:', int $retentionMinutes = 60)
@@ -33,7 +37,7 @@ class FileStorage implements StorageInterface
 
     public function increment(string $key, int $amount = 1): int
     {
-        $fullKey = $this->prefix . $key;
+        $fullKey = $this->prefix.$key;
         $current = $this->cache['counters'][$fullKey] ?? 0;
         $newValue = $current + $amount;
         $this->cache['counters'][$fullKey] = $newValue;
@@ -45,7 +49,7 @@ class FileStorage implements StorageInterface
 
     public function gauge(string $key, float|int $value): void
     {
-        $fullKey = $this->prefix . 'gauge:' . $key;
+        $fullKey = $this->prefix.'gauge:'.$key;
         $this->cache['gauges'][$fullKey] = $value;
         $this->cache['timestamps'][$fullKey] = time();
         $this->dirty = true;
@@ -53,7 +57,7 @@ class FileStorage implements StorageInterface
 
     public function get(string $key, mixed $default = null): mixed
     {
-        $fullKey = $this->prefix . $key;
+        $fullKey = $this->prefix.$key;
 
         if (isset($this->cache['counters'][$fullKey])) {
             return $this->cache['counters'][$fullKey];
@@ -68,7 +72,7 @@ class FileStorage implements StorageInterface
 
     public function getAll(string $prefix = ''): array
     {
-        $fullPrefix = $this->prefix . $prefix;
+        $fullPrefix = $this->prefix.$prefix;
         $result = [];
 
         foreach ($this->cache['counters'] ?? [] as $key => $value) {
@@ -90,9 +94,9 @@ class FileStorage implements StorageInterface
 
     public function timing(string $key, float $milliseconds): void
     {
-        $fullKey = $this->prefix . 'timing:' . $key;
+        $fullKey = $this->prefix.'timing:'.$key;
 
-        if (!isset($this->cache['timings'][$fullKey])) {
+        if (! isset($this->cache['timings'][$fullKey])) {
             $this->cache['timings'][$fullKey] = ['count' => 0, 'total' => 0];
         }
 
@@ -104,7 +108,7 @@ class FileStorage implements StorageInterface
 
     public function getTimingStats(string $key): array
     {
-        $fullKey = $this->prefix . 'timing:' . $key;
+        $fullKey = $this->prefix.'timing:'.$key;
         $data = $this->cache['timings'][$fullKey] ?? ['count' => 0, 'total' => 0];
 
         return [
@@ -117,11 +121,11 @@ class FileStorage implements StorageInterface
     public function recordRequest(int $statusCode, float $responseTimeMs, ?string $route = null): void
     {
         $minute = date('Y-m-d-H-i');
-        $statusGroup = (int) floor($statusCode / 100) . 'xx';
+        $statusGroup = (int) floor($statusCode / 100).'xx';
 
         $this->increment('requests:total');
-        $this->increment('requests:minute:' . $minute);
-        $this->increment('requests:status:' . $statusGroup);
+        $this->increment('requests:minute:'.$minute);
+        $this->increment('requests:status:'.$statusGroup);
         $this->timing('requests:response_time', $responseTimeMs);
 
         $slowThreshold = config('metrics-exporter.requests.slow_threshold_ms', 1000);
@@ -130,7 +134,7 @@ class FileStorage implements StorageInterface
         }
 
         if ($route && config('metrics-exporter.requests.track_routes', true)) {
-            $this->increment('requests:route:' . $this->sanitizeRouteName($route));
+            $this->increment('requests:route:'.$this->sanitizeRouteName($route));
         }
     }
 
@@ -138,7 +142,7 @@ class FileStorage implements StorageInterface
     {
         $total = (int) $this->get('requests:total', 0);
         $minute = date('Y-m-d-H-i');
-        $perMinute = (int) $this->get('requests:minute:' . $minute, 0);
+        $perMinute = (int) $this->get('requests:minute:'.$minute, 0);
         $timing = $this->getTimingStats('requests:response_time');
 
         $byStatus = [
@@ -165,7 +169,7 @@ class FileStorage implements StorageInterface
         $minute = date('Y-m-d-H-i');
 
         $this->increment('database:total');
-        $this->increment('database:minute:' . $minute);
+        $this->increment('database:minute:'.$minute);
         $this->timing('database:query_time', $timeMs);
 
         if ($isSlow) {
@@ -177,7 +181,7 @@ class FileStorage implements StorageInterface
     {
         $total = (int) $this->get('database:total', 0);
         $minute = date('Y-m-d-H-i');
-        $perMinute = (int) $this->get('database:minute:' . $minute, 0);
+        $perMinute = (int) $this->get('database:minute:'.$minute, 0);
         $timing = $this->getTimingStats('database:query_time');
 
         return [
@@ -213,17 +217,17 @@ class FileStorage implements StorageInterface
     public function recordError(string $level): void
     {
         $this->increment('errors:total');
-        $this->increment('errors:level:' . $level);
+        $this->increment('errors:level:'.$level);
 
         $minute = date('Y-m-d-H-i');
-        $this->increment('errors:minute:' . $minute);
+        $this->increment('errors:minute:'.$minute);
     }
 
     public function getErrorStats(): array
     {
         $total = (int) $this->get('errors:total', 0);
         $minute = date('Y-m-d-H-i');
-        $perMinute = (int) $this->get('errors:minute:' . $minute, 0);
+        $perMinute = (int) $this->get('errors:minute:'.$minute, 0);
 
         return [
             'total' => $total,
@@ -251,14 +255,14 @@ class FileStorage implements StorageInterface
 
     private function ensureDirectoryExists(): void
     {
-        if (!File::isDirectory($this->path)) {
+        if (! File::isDirectory($this->path)) {
             File::makeDirectory($this->path, 0755, true);
         }
     }
 
     private function getFilePath(): string
     {
-        return $this->path . '/metrics.json';
+        return $this->path.'/metrics.json';
     }
 
     private function loadData(): void
@@ -330,7 +334,7 @@ class FileStorage implements StorageInterface
     {
         $maxRoutes = config('metrics-exporter.requests.max_routes', 100);
         $routes = [];
-        $prefix = $this->prefix . 'requests:route:';
+        $prefix = $this->prefix.'requests:route:';
 
         foreach ($this->cache['counters'] ?? [] as $key => $value) {
             if (str_starts_with($key, $prefix)) {

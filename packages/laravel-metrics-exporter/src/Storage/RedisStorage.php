@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Redis;
 class RedisStorage implements StorageInterface
 {
     private Connection $redis;
+
     private string $prefix;
+
     private int $ttl;
 
     public function __construct(string $connection = 'default', string $prefix = 'beacon_metrics:', int $retentionMinutes = 60)
@@ -22,7 +24,7 @@ class RedisStorage implements StorageInterface
 
     public function increment(string $key, int $amount = 1): int
     {
-        $fullKey = $this->prefix . $key;
+        $fullKey = $this->prefix.$key;
         $value = $this->redis->incrby($fullKey, $amount);
         $this->redis->expire($fullKey, $this->ttl);
 
@@ -31,21 +33,21 @@ class RedisStorage implements StorageInterface
 
     public function gauge(string $key, float|int $value): void
     {
-        $fullKey = $this->prefix . 'gauge:' . $key;
+        $fullKey = $this->prefix.'gauge:'.$key;
         $this->redis->set($fullKey, $value);
         $this->redis->expire($fullKey, $this->ttl);
     }
 
     public function get(string $key, mixed $default = null): mixed
     {
-        $value = $this->redis->get($this->prefix . $key);
+        $value = $this->redis->get($this->prefix.$key);
 
         return $value !== null ? $value : $default;
     }
 
     public function getAll(string $prefix = ''): array
     {
-        $pattern = $this->prefix . $prefix . '*';
+        $pattern = $this->prefix.$prefix.'*';
         $keys = $this->redis->keys($pattern);
         $result = [];
 
@@ -59,7 +61,7 @@ class RedisStorage implements StorageInterface
 
     public function timing(string $key, float $milliseconds): void
     {
-        $fullKey = $this->prefix . 'timing:' . $key;
+        $fullKey = $this->prefix.'timing:'.$key;
 
         // Store count and total for calculating average
         $this->redis->hincrby($fullKey, 'count', 1);
@@ -69,7 +71,7 @@ class RedisStorage implements StorageInterface
 
     public function getTimingStats(string $key): array
     {
-        $fullKey = $this->prefix . 'timing:' . $key;
+        $fullKey = $this->prefix.'timing:'.$key;
         $data = $this->redis->hgetall($fullKey);
 
         $count = (int) ($data['count'] ?? 0);
@@ -85,14 +87,14 @@ class RedisStorage implements StorageInterface
     public function recordRequest(int $statusCode, float $responseTimeMs, ?string $route = null): void
     {
         $minute = date('Y-m-d-H-i');
-        $statusGroup = (int) floor($statusCode / 100) . 'xx';
+        $statusGroup = (int) floor($statusCode / 100).'xx';
 
         // Increment total requests
         $this->increment('requests:total');
-        $this->increment('requests:minute:' . $minute);
+        $this->increment('requests:minute:'.$minute);
 
         // Increment status code group
-        $this->increment('requests:status:' . $statusGroup);
+        $this->increment('requests:status:'.$statusGroup);
 
         // Record response time
         $this->timing('requests:response_time', $responseTimeMs);
@@ -105,7 +107,7 @@ class RedisStorage implements StorageInterface
 
         // Track per-route stats if enabled
         if ($route && config('metrics-exporter.requests.track_routes', true)) {
-            $this->increment('requests:route:' . $this->sanitizeRouteName($route));
+            $this->increment('requests:route:'.$this->sanitizeRouteName($route));
         }
     }
 
@@ -113,7 +115,7 @@ class RedisStorage implements StorageInterface
     {
         $total = (int) $this->get('requests:total', 0);
         $minute = date('Y-m-d-H-i');
-        $perMinute = (int) $this->get('requests:minute:' . $minute, 0);
+        $perMinute = (int) $this->get('requests:minute:'.$minute, 0);
         $timing = $this->getTimingStats('requests:response_time');
 
         // Get status code breakdown
@@ -142,7 +144,7 @@ class RedisStorage implements StorageInterface
         $minute = date('Y-m-d-H-i');
 
         $this->increment('database:total');
-        $this->increment('database:minute:' . $minute);
+        $this->increment('database:minute:'.$minute);
         $this->timing('database:query_time', $timeMs);
 
         if ($isSlow) {
@@ -154,7 +156,7 @@ class RedisStorage implements StorageInterface
     {
         $total = (int) $this->get('database:total', 0);
         $minute = date('Y-m-d-H-i');
-        $perMinute = (int) $this->get('database:minute:' . $minute, 0);
+        $perMinute = (int) $this->get('database:minute:'.$minute, 0);
         $timing = $this->getTimingStats('database:query_time');
 
         return [
@@ -190,17 +192,17 @@ class RedisStorage implements StorageInterface
     public function recordError(string $level): void
     {
         $this->increment('errors:total');
-        $this->increment('errors:level:' . $level);
+        $this->increment('errors:level:'.$level);
 
         $minute = date('Y-m-d-H-i');
-        $this->increment('errors:minute:' . $minute);
+        $this->increment('errors:minute:'.$minute);
     }
 
     public function getErrorStats(): array
     {
         $total = (int) $this->get('errors:total', 0);
         $minute = date('Y-m-d-H-i');
-        $perMinute = (int) $this->get('errors:minute:' . $minute, 0);
+        $perMinute = (int) $this->get('errors:minute:'.$minute, 0);
 
         return [
             'total' => $total,
@@ -216,7 +218,7 @@ class RedisStorage implements StorageInterface
 
     public function flush(): void
     {
-        $keys = $this->redis->keys($this->prefix . '*');
+        $keys = $this->redis->keys($this->prefix.'*');
 
         foreach ($keys as $key) {
             $this->redis->del($key);
@@ -228,10 +230,10 @@ class RedisStorage implements StorageInterface
         $maxRoutes = config('metrics-exporter.requests.max_routes', 100);
         $routes = [];
 
-        $keys = $this->redis->keys($this->prefix . 'requests:route:*');
+        $keys = $this->redis->keys($this->prefix.'requests:route:*');
 
         foreach (array_slice($keys, 0, $maxRoutes) as $key) {
-            $route = str_replace($this->prefix . 'requests:route:', '', $key);
+            $route = str_replace($this->prefix.'requests:route:', '', $key);
             $routes[$route] = (int) $this->redis->get($key);
         }
 

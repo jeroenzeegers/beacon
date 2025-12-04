@@ -19,7 +19,7 @@ class RequestMetricsMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Skip if metrics collection is disabled
-        if (!config('metrics-exporter.enabled', true)) {
+        if (! config('metrics-exporter.enabled', true)) {
             return $next($request);
         }
 
@@ -59,7 +59,7 @@ class RequestMetricsMiddleware
     {
         $route = $request->route();
 
-        if (!$route) {
+        if (! $route) {
             return null;
         }
 

@@ -15,7 +15,7 @@ class MetricsController
 
     public function __invoke(): JsonResponse
     {
-        if (!config('metrics-exporter.enabled', true)) {
+        if (! config('metrics-exporter.enabled', true)) {
             return response()->json([
                 'error' => 'Service Unavailable',
                 'message' => 'Metrics collection is disabled.',

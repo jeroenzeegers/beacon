@@ -55,7 +55,7 @@ class SystemCollector implements CollectorInterface
 
     private function getCpuLoad(): ?array
     {
-        if (!function_exists('sys_getloadavg')) {
+        if (! function_exists('sys_getloadavg')) {
             return null;
         }
 
@@ -82,7 +82,7 @@ class SystemCollector implements CollectorInterface
 
     private function isOpcacheEnabled(): bool
     {
-        if (!function_exists('opcache_get_status')) {
+        if (! function_exists('opcache_get_status')) {
             return false;
         }
 
@@ -93,7 +93,7 @@ class SystemCollector implements CollectorInterface
 
     private function getOpcacheStats(): ?array
     {
-        if (!function_exists('opcache_get_status')) {
+        if (! function_exists('opcache_get_status')) {
             return null;
         }
 
