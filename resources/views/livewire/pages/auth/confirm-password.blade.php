@@ -47,14 +47,14 @@ new #[Layout('layouts.guest')] class extends Component
 
     <form wire:submit="confirmPassword" class="space-y-6">
         <!-- Password -->
-        <div>
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input wire:model="password" id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+        <flux:field>
+            <flux:label>{{ __('Password') }}</flux:label>
+            <flux:input wire:model="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+            <flux:error name="password" />
+        </flux:field>
 
-        <x-primary-button>
+        <flux:button type="submit" variant="primary" class="w-full">
             {{ __('Confirm') }}
-        </x-primary-button>
+        </flux:button>
     </form>
 </div>

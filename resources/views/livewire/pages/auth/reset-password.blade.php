@@ -83,28 +83,28 @@ new #[Layout('layouts.guest')] class extends Component
 
     <form wire:submit="resetPassword" class="space-y-5">
         <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" type="email" name="email" required autofocus autocomplete="username" placeholder="you@example.com" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <flux:field>
+            <flux:label>{{ __('Email') }}</flux:label>
+            <flux:input wire:model="email" type="email" placeholder="you@example.com" autofocus autocomplete="username" />
+            <flux:error name="email" />
+        </flux:field>
 
         <!-- Password -->
-        <div>
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input wire:model="password" id="password" type="password" name="password" required autocomplete="new-password" placeholder="••••••••" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+        <flux:field>
+            <flux:label>{{ __('Password') }}</flux:label>
+            <flux:input wire:model="password" type="password" placeholder="••••••••" autocomplete="new-password" />
+            <flux:error name="password" />
+        </flux:field>
 
         <!-- Confirm Password -->
-        <div>
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••" />
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+        <flux:field>
+            <flux:label>{{ __('Confirm Password') }}</flux:label>
+            <flux:input wire:model="password_confirmation" type="password" placeholder="••••••••" autocomplete="new-password" />
+            <flux:error name="password_confirmation" />
+        </flux:field>
 
-        <x-primary-button>
+        <flux:button type="submit" variant="primary" class="w-full">
             {{ __('Reset Password') }}
-        </x-primary-button>
+        </flux:button>
     </form>
 </div>

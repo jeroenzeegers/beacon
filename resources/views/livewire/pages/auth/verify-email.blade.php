@@ -51,18 +51,18 @@ new #[Layout('layouts.guest')] class extends Component
     </div>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-6 p-4 glass-liquid rounded-xl border border-emerald-500/30 text-sm text-emerald-400 text-center">
+        <div class="mb-6 p-4 glass rounded-xl border border-emerald-500/30 text-sm text-emerald-400 text-center">
             {{ __('A new verification link has been sent to the email address you provided during registration.') }}
         </div>
     @endif
 
     <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <x-primary-button wire:click="sendVerification">
+        <flux:button wire:click="sendVerification" variant="primary">
             {{ __('Resend Verification Email') }}
-        </x-primary-button>
+        </flux:button>
 
-        <button wire:click="logout" type="submit" class="text-sm text-slate-400 hover:text-white transition-colors focus:outline-none focus-ring rounded-lg px-3 py-1.5">
+        <flux:button wire:click="logout" variant="ghost">
             {{ __('Log Out') }}
-        </button>
+        </flux:button>
     </div>
 </div>

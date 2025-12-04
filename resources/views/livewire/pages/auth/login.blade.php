@@ -28,7 +28,7 @@ new #[Layout('layouts.guest')] class extends Component
     <!-- Header -->
     <div class="text-center mb-8">
         <h1 class="text-2xl font-bold text-white">Welcome back</h1>
-        <p class="text-gray-400 mt-2">Sign in to your account to continue</p>
+        <p class="text-slate-400 mt-2">Sign in to your account to continue</p>
     </div>
 
     <!-- Session Status -->
@@ -36,44 +36,41 @@ new #[Layout('layouts.guest')] class extends Component
 
     <form wire:submit="login" class="space-y-6">
         <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="form.email" id="email" type="email" name="email" required autofocus autocomplete="username" placeholder="you@example.com" />
-            <x-input-error :messages="$errors->get('form.email')" />
-        </div>
+        <flux:field>
+            <flux:label>{{ __('Email') }}</flux:label>
+            <flux:input wire:model="form.email" type="email" placeholder="you@example.com" autofocus autocomplete="username" />
+            <flux:error name="form.email" />
+        </flux:field>
 
         <!-- Password -->
-        <div>
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input wire:model="form.password" id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••" />
-            <x-input-error :messages="$errors->get('form.password')" />
-        </div>
+        <flux:field>
+            <flux:label>{{ __('Password') }}</flux:label>
+            <flux:input wire:model="form.password" type="password" placeholder="••••••••" autocomplete="current-password" />
+            <flux:error name="form.password" />
+        </flux:field>
 
         <!-- Remember Me & Forgot Password -->
         <div class="flex items-center justify-between">
-            <label for="remember" class="inline-flex items-center">
-                <input wire:model="form.remember" id="remember" type="checkbox" class="w-4 h-4 rounded bg-white/5 border-white/10 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-0" name="remember">
-                <span class="ms-2 text-sm text-gray-400">{{ __('Remember me') }}</span>
-            </label>
+            <flux:checkbox wire:model="form.remember" label="{{ __('Remember me') }}" />
 
             @if (Route::has('password.request'))
-                <a class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors" href="{{ route('password.request') }}" wire:navigate>
+                <flux:link href="{{ route('password.request') }}" wire:navigate class="text-sm">
                     {{ __('Forgot password?') }}
-                </a>
+                </flux:link>
             @endif
         </div>
 
         <!-- Submit Button -->
-        <x-primary-button>
+        <flux:button type="submit" variant="primary" class="w-full">
             {{ __('Sign in') }}
-        </x-primary-button>
+        </flux:button>
 
         <!-- Register Link -->
-        <p class="text-center text-gray-400 text-sm">
+        <p class="text-center text-slate-400 text-sm">
             Don't have an account?
-            <a href="{{ route('register') }}" class="text-indigo-400 hover:text-indigo-300 font-medium transition-colors" wire:navigate>
+            <flux:link href="{{ route('register') }}" wire:navigate>
                 Start free trial
-            </a>
+            </flux:link>
         </p>
     </form>
 </div>
