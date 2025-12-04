@@ -97,7 +97,7 @@
                             Type
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            URL / Host
+                            Target
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Response Time
@@ -145,7 +145,7 @@
                                 {{ strtoupper($monitor->type) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 max-w-xs truncate">
-                                {{ $monitor->url ?? $monitor->host }}
+                                {{ $monitor->target }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $monitor->latestCheck?->response_time ?? '-' }}ms

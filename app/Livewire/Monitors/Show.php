@@ -93,12 +93,22 @@ class Show extends Component
         // Get response time data for chart
         $responseTimeData = $this->getResponseTimeChartData();
 
+        // Get active incidents for this monitor
+        $activeIncidents = $this->monitor->incidents()
+            ->whereNull('resolved_at')
+            ->latest('started_at')
+            ->get();
+
         return view('livewire.monitors.show', [
-            'checks' => $checks,
-            'uptimePercentage' => $this->monitor->getUptimePercentage($this->chartDays),
+            'recentChecks' => $checks,
+            'uptime' => $this->monitor->getUptimePercentage($this->chartDays),
             'avgResponseTime' => $this->monitor->getAverageResponseTime($this->chartDays),
             'uptimeData' => $uptimeData,
-            'responseTimeData' => $responseTimeData,
+            'responseTimeData' => collect($responseTimeData)->map(fn ($item) => [
+                'time' => $item['date'],
+                'value' => $item['response_time'],
+            ]),
+            'activeIncidents' => $activeIncidents,
         ])->layout('layouts.app');
     }
 

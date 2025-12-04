@@ -12,14 +12,14 @@
                     <!-- Name -->
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                        <input wire:model="name" type="text" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="My Website">
+                        <input wire:model="name" type="text" id="name" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="My Website">
                         @error('name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Type -->
                     <div>
                         <label for="type" class="block text-sm font-medium text-gray-700">Monitor Type</label>
-                        <select wire:model.live="type" id="type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select wire:model.live="type" id="type" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             @foreach($types as $value => $label)
                                 <option value="{{ $value }}">{{ $label }}</option>
                             @endforeach
@@ -36,7 +36,7 @@
                                 Host
                             @endif
                         </label>
-                        <input wire:model="target" type="text" id="target" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="{{ in_array($type, ['http', 'https']) ? 'https://example.com' : 'example.com' }}">
+                        <input wire:model="target" type="text" id="target" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="{{ in_array($type, ['http', 'https']) ? 'https://example.com' : 'example.com' }}">
                         @error('target') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
@@ -44,7 +44,7 @@
                     @if($type === 'tcp')
                         <div>
                             <label for="port" class="block text-sm font-medium text-gray-700">Port</label>
-                            <input wire:model="port" type="number" id="port" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="443">
+                            <input wire:model="port" type="number" id="port" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="443">
                             @error('port') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                     @endif
@@ -52,7 +52,7 @@
                     <!-- Check Interval -->
                     <div>
                         <label for="check_interval" class="block text-sm font-medium text-gray-700">Check Interval</label>
-                        <select wire:model="check_interval" id="check_interval" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select wire:model="check_interval" id="check_interval" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="60">Every minute</option>
                             <option value="300">Every 5 minutes</option>
                             <option value="600">Every 10 minutes</option>
@@ -72,7 +72,7 @@
                                 <!-- HTTP Method -->
                                 <div>
                                     <label for="http_method" class="block text-sm font-medium text-gray-700">HTTP Method</label>
-                                    <select wire:model="http_method" id="http_method" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <select wire:model="http_method" id="http_method" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option value="GET">GET</option>
                                         <option value="POST">POST</option>
                                         <option value="HEAD">HEAD</option>
@@ -82,7 +82,7 @@
                                 <!-- Expected Status Codes -->
                                 <div>
                                     <label for="expected_status" class="block text-sm font-medium text-gray-700">Expected Status Codes</label>
-                                    <input wire:model="expected_status" type="text" id="expected_status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="200,201,204">
+                                    <input wire:model="expected_status" type="text" id="expected_status" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="200,201,204">
                                     <p class="mt-1 text-sm text-gray-500">Comma-separated list of acceptable status codes</p>
                                     @error('expected_status') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
@@ -90,7 +90,7 @@
                                 <!-- Timeout -->
                                 <div>
                                     <label for="timeout" class="block text-sm font-medium text-gray-700">Timeout (seconds)</label>
-                                    <input wire:model="timeout" type="number" id="timeout" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="30">
+                                    <input wire:model="timeout" type="number" id="timeout" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="30">
                                     @error('timeout') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
                             </div>
@@ -105,14 +105,14 @@
                             <div class="mt-4 space-y-4">
                                 <div>
                                     <label for="ssl_warning_days" class="block text-sm font-medium text-gray-700">Warning Threshold (days)</label>
-                                    <input wire:model="ssl_warning_days" type="number" id="ssl_warning_days" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="30">
+                                    <input wire:model="ssl_warning_days" type="number" id="ssl_warning_days" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="30">
                                     <p class="mt-1 text-sm text-gray-500">Send warning when certificate expires within this many days</p>
                                     @error('ssl_warning_days') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
 
                                 <div>
                                     <label for="ssl_critical_days" class="block text-sm font-medium text-gray-700">Critical Threshold (days)</label>
-                                    <input wire:model="ssl_critical_days" type="number" id="ssl_critical_days" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="7">
+                                    <input wire:model="ssl_critical_days" type="number" id="ssl_critical_days" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="7">
                                     <p class="mt-1 text-sm text-gray-500">Send critical alert when certificate expires within this many days</p>
                                     @error('ssl_critical_days') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
@@ -123,7 +123,7 @@
                     <!-- Project -->
                     <div>
                         <label for="project_id" class="block text-sm font-medium text-gray-700">Project (Optional)</label>
-                        <select wire:model="project_id" id="project_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select wire:model="project_id" id="project_id" class="mt-1 block w-full bg-white text-gray-900 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="">No Project</option>
                             @foreach($projects as $project)
                                 <option value="{{ $project->id }}">{{ $project->name }}</option>

@@ -84,7 +84,7 @@ class Index extends Component
             'monitors' => $monitors,
             'projects' => $projects,
             'canCreateMonitor' => $canCreateMonitor,
-            'monitorTypes' => Monitor::getAvailableTypes(),
+            'types' => Monitor::getAvailableTypes(),
         ])->layout('layouts.app');
     }
 }

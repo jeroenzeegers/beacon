@@ -28,8 +28,8 @@
             @endif
         </div>
         <div class="flex items-center space-x-3">
-            <button wire:click="toggleEnabled" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium {{ $monitor->is_enabled ? 'text-gray-700 bg-white hover:bg-gray-50' : 'text-green-700 bg-green-50 hover:bg-green-100' }}">
-                {{ $monitor->is_enabled ? 'Pause' : 'Resume' }}
+            <button wire:click="toggleActive" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium {{ $monitor->is_active ? 'text-gray-700 bg-white hover:bg-gray-50' : 'text-green-700 bg-green-50 hover:bg-green-100' }}">
+                {{ $monitor->is_active ? 'Pause' : 'Resume' }}
             </button>
             <a href="{{ route('monitors.edit', $monitor->id) }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" wire:navigate>
                 Edit
@@ -250,8 +250,8 @@
                             <dd class="mt-1 text-sm text-gray-900">{{ strtoupper($monitor->type) }}</dd>
                         </div>
                         <div>
-                            <dt class="text-sm font-medium text-gray-500">URL / Host</dt>
-                            <dd class="mt-1 text-sm text-gray-900 break-all">{{ $monitor->url ?? $monitor->host }}</dd>
+                            <dt class="text-sm font-medium text-gray-500">Target</dt>
+                            <dd class="mt-1 text-sm text-gray-900 break-all">{{ $monitor->target }}</dd>
                         </div>
                         @if($monitor->port)
                             <div>

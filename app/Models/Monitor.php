@@ -88,6 +88,11 @@ class Monitor extends Model
         return $this->hasOne(MonitorCheck::class)->latestOfMany('checked_at');
     }
 
+    public function incidents(): HasMany
+    {
+        return $this->hasMany(Incident::class);
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
@@ -208,7 +213,7 @@ class Monitor extends Model
             ->whereNotNull('response_time')
             ->avg('response_time');
 
-        return $avg ? round($avg, 2) : null;
+        return $avg ? round((float) $avg, 2) : null;
     }
 
     public static function getAvailableTypes(): array
