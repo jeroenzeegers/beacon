@@ -27,23 +27,18 @@
                         @error('type') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
-                    <!-- URL (for HTTP/HTTPS) -->
-                    @if(in_array($type, ['http', 'https']))
-                        <div>
-                            <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
-                            <input wire:model="url" type="url" id="url" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="https://example.com">
-                            @error('url') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-                    @endif
-
-                    <!-- Host (for TCP/Ping/SSL) -->
-                    @if(in_array($type, ['tcp', 'ping', 'ssl_expiry']))
-                        <div>
-                            <label for="host" class="block text-sm font-medium text-gray-700">Host</label>
-                            <input wire:model="host" type="text" id="host" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="example.com">
-                            @error('host') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-                    @endif
+                    <!-- Target (URL for HTTP/HTTPS, Host for others) -->
+                    <div>
+                        <label for="target" class="block text-sm font-medium text-gray-700">
+                            @if(in_array($type, ['http', 'https']))
+                                URL
+                            @else
+                                Host
+                            @endif
+                        </label>
+                        <input wire:model="target" type="text" id="target" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="{{ in_array($type, ['http', 'https']) ? 'https://example.com' : 'example.com' }}">
+                        @error('target') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
 
                     <!-- Port (for TCP) -->
                     @if($type === 'tcp')
@@ -84,11 +79,12 @@
                                     </select>
                                 </div>
 
-                                <!-- Expected Status Code -->
+                                <!-- Expected Status Codes -->
                                 <div>
-                                    <label for="expected_status_code" class="block text-sm font-medium text-gray-700">Expected Status Code</label>
-                                    <input wire:model="expected_status_code" type="number" id="expected_status_code" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="200">
-                                    @error('expected_status_code') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                    <label for="expected_status" class="block text-sm font-medium text-gray-700">Expected Status Codes</label>
+                                    <input wire:model="expected_status" type="text" id="expected_status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="200,201,204">
+                                    <p class="mt-1 text-sm text-gray-500">Comma-separated list of acceptable status codes</p>
+                                    @error('expected_status') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
 
                                 <!-- Timeout -->
@@ -96,12 +92,6 @@
                                     <label for="timeout" class="block text-sm font-medium text-gray-700">Timeout (seconds)</label>
                                     <input wire:model="timeout" type="number" id="timeout" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="30">
                                     @error('timeout') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                </div>
-
-                                <!-- Verify SSL -->
-                                <div class="flex items-center">
-                                    <input wire:model="verify_ssl" type="checkbox" id="verify_ssl" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                                    <label for="verify_ssl" class="ml-2 block text-sm text-gray-900">Verify SSL Certificate</label>
                                 </div>
                             </div>
                         </div>
@@ -112,11 +102,20 @@
                         <div class="border-t border-gray-200 pt-6">
                             <h3 class="text-lg font-medium text-gray-900">SSL Options</h3>
 
-                            <div class="mt-4">
-                                <label for="ssl_expiry_threshold" class="block text-sm font-medium text-gray-700">Expiry Warning (days)</label>
-                                <input wire:model="ssl_expiry_threshold" type="number" id="ssl_expiry_threshold" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="14">
-                                <p class="mt-1 text-sm text-gray-500">Alert when SSL certificate expires within this many days</p>
-                                @error('ssl_expiry_threshold') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                            <div class="mt-4 space-y-4">
+                                <div>
+                                    <label for="ssl_warning_days" class="block text-sm font-medium text-gray-700">Warning Threshold (days)</label>
+                                    <input wire:model="ssl_warning_days" type="number" id="ssl_warning_days" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="30">
+                                    <p class="mt-1 text-sm text-gray-500">Send warning when certificate expires within this many days</p>
+                                    @error('ssl_warning_days') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                </div>
+
+                                <div>
+                                    <label for="ssl_critical_days" class="block text-sm font-medium text-gray-700">Critical Threshold (days)</label>
+                                    <input wire:model="ssl_critical_days" type="number" id="ssl_critical_days" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="7">
+                                    <p class="mt-1 text-sm text-gray-500">Send critical alert when certificate expires within this many days</p>
+                                    @error('ssl_critical_days') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                </div>
                             </div>
                         </div>
                     @endif

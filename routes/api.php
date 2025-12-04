@@ -20,23 +20,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 // API v1 routes
-Route::prefix('v1')->middleware(['auth:sanctum', 'api.rate-limit'])->group(function () {
+Route::prefix('v1')->middleware(['auth:sanctum', 'api.rate-limit'])->name('api.')->group(function () {
     // Team
-    Route::get('/team', [TeamController::class, 'show']);
+    Route::get('/team', [TeamController::class, 'show'])->name('team.show');
 
     // Projects
     Route::apiResource('projects', ProjectController::class);
 
     // Monitors
     Route::apiResource('monitors', MonitorController::class);
-    Route::post('/monitors/{monitor}/check', [MonitorController::class, 'triggerCheck']);
-    Route::get('/monitors/{monitor}/checks', [MonitorController::class, 'checks']);
-    Route::get('/monitors/{monitor}/stats', [MonitorController::class, 'stats']);
+    Route::post('/monitors/{monitor}/check', [MonitorController::class, 'triggerCheck'])->name('monitors.check');
+    Route::get('/monitors/{monitor}/checks', [MonitorController::class, 'checks'])->name('monitors.checks');
+    Route::get('/monitors/{monitor}/stats', [MonitorController::class, 'stats'])->name('monitors.stats');
 
     // Incidents
     Route::apiResource('incidents', IncidentController::class);
-    Route::post('/incidents/{incident}/updates', [IncidentController::class, 'addUpdate']);
-    Route::post('/incidents/{incident}/resolve', [IncidentController::class, 'resolve']);
+    Route::post('/incidents/{incident}/updates', [IncidentController::class, 'addUpdate'])->name('incidents.add-update');
+    Route::post('/incidents/{incident}/resolve', [IncidentController::class, 'resolve'])->name('incidents.resolve');
 });
 
 // Public heartbeat endpoints (no auth required)

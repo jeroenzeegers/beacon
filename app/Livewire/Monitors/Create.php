@@ -171,7 +171,7 @@ class Create extends Component
 
         return view('livewire.monitors.create', [
             'projects' => $projects,
-            'monitorTypes' => Monitor::getAvailableTypes(),
+            'types' => Monitor::getAvailableTypes(),
             'minCheckInterval' => $minCheckInterval,
             'isEditing' => (bool) $this->monitorId,
         ])->layout('layouts.app');
