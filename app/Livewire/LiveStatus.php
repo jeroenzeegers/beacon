@@ -128,6 +128,13 @@ class LiveStatus extends Component
             ->avg('response_time') ?? 0), 2);
 
         $this->calculateOverallUptime($teamId);
+
+        // Dispatch event to update charts
+        $this->dispatch('chartsDataUpdated', [
+            'responseTimeData' => $this->responseTimeData,
+            'statusCounts' => $this->statusCounts,
+            'uptimeData' => $this->uptimeData,
+        ]);
     }
 
     private function calculateUptimePercentage(Monitor $monitor): float

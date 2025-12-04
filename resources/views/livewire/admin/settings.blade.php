@@ -142,7 +142,7 @@
                 </div>
                 <div class="flex items-center justify-between py-2 border-b border-white/5">
                     <span class="text-gray-400">Livewire Version</span>
-                    <span class="text-white">{{ \Livewire\Livewire::VERSION ?? 'N/A' }}</span>
+                    <span class="text-white">{{ \Composer\InstalledVersions::getPrettyVersion('livewire/livewire') ?? 'N/A' }}</span>
                 </div>
                 <div class="flex items-center justify-between py-2 border-b border-white/5">
                     <span class="text-gray-400">Debug Mode</span>

@@ -216,6 +216,11 @@ class Monitor extends Model
         return $avg ? round((float) $avg, 2) : null;
     }
 
+    public function getUptimePercentageAttribute(): float
+    {
+        return $this->getUptimePercentage();
+    }
+
     public static function getAvailableTypes(): array
     {
         return [

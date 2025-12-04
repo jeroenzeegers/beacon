@@ -6,14 +6,31 @@ namespace App\Services;
 
 use App\Models\Team;
 use App\Models\UsageRecord;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UsageLimiter
 {
+    /**
+     * Check if the current user is an admin (bypasses all limits).
+     */
+    private function isAdmin(): bool
+    {
+        /** @var User|null $user */
+        $user = Auth::user();
+
+        return $user instanceof User && $user->isAdmin();
+    }
+
     /**
      * Check if team can create a new monitor.
      */
     public function canCreateMonitor(Team $team): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $limits = $team->getPlanLimits();
         $current = $team->monitors()->count();
 
@@ -25,6 +42,10 @@ class UsageLimiter
      */
     public function canCreateProject(Team $team): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $limits = $team->getPlanLimits();
         $current = $team->projects()->count();
 
@@ -36,6 +57,10 @@ class UsageLimiter
      */
     public function canAddTeamMember(Team $team): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $limits = $team->getPlanLimits();
         $current = $team->users()->count();
 
@@ -47,6 +72,10 @@ class UsageLimiter
      */
     public function canUseCheckInterval(Team $team, int $seconds): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $limits = $team->getPlanLimits();
 
         return $seconds >= $limits->check_interval_min;
@@ -57,6 +86,10 @@ class UsageLimiter
      */
     public function canCreateStatusPage(Team $team): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $limits = $team->getPlanLimits();
         $current = $team->statusPages()->count();
 
@@ -68,6 +101,10 @@ class UsageLimiter
      */
     public function canCreateAlertChannel(Team $team): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $limits = $team->getPlanLimits();
         $current = $team->alertChannels()->count();
 
@@ -79,6 +116,10 @@ class UsageLimiter
      */
     public function canSendSms(Team $team): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $limits = $team->getPlanLimits();
 
         if (! $limits->hasFeature('sms_alerts')) {
@@ -102,6 +143,10 @@ class UsageLimiter
      */
     public function hasApiAccess(Team $team): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $team->getPlanLimits()->hasFeature('api_access');
     }
 
@@ -110,6 +155,10 @@ class UsageLimiter
      */
     public function canUseCustomDomains(Team $team): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $team->getPlanLimits()->hasFeature('custom_domains');
     }
 
@@ -118,6 +167,10 @@ class UsageLimiter
      */
     public function hasSlaReports(Team $team): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $team->getPlanLimits()->hasFeature('sla_reports');
     }
 
