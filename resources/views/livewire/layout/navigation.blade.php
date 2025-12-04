@@ -52,9 +52,43 @@ new class extends Component
                         {{ __('Live') }}
                     </a>
 
+                    <!-- Alerts Dropdown -->
+                    <div x-data="{ alertsOpen: false }" class="relative">
+                        <button @click="alertsOpen = !alertsOpen" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs(['alerts.*']) ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                            {{ __('Alerts') }}
+                            <svg class="ms-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div x-show="alertsOpen" @click.away="alertsOpen = false" x-cloak
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="opacity-0 scale-95"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            class="absolute left-0 mt-2 w-56 glass-darker rounded-xl shadow-xl py-2 z-50">
+                            <a href="{{ route('alerts.channels.index') }}" wire:navigate class="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 {{ request()->routeIs('alerts.channels.*') ? 'bg-white/10 text-white' : '' }}">
+                                <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                </svg>
+                                Channels
+                            </a>
+                            <a href="{{ route('alerts.rules.index') }}" wire:navigate class="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 {{ request()->routeIs('alerts.rules.*') ? 'bg-white/10 text-white' : '' }}">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                                </svg>
+                                Rules
+                            </a>
+                            <a href="{{ route('alerts.logs.index') }}" wire:navigate class="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 {{ request()->routeIs('alerts.logs.*') ? 'bg-white/10 text-white' : '' }}">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Logs
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- More Dropdown -->
                     <div x-data="{ moreOpen: false }" class="relative">
-                        <button @click="moreOpen = !moreOpen" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs(['projects.*', 'maintenance.*', 'reports.*']) ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                        <button @click="moreOpen = !moreOpen" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs(['projects.*', 'maintenance.*', 'reports.*', 'status-pages.*', 'incidents.*']) ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
                             {{ __('More') }}
                             <svg class="ms-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -70,6 +104,18 @@ new class extends Component
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
                                 </svg>
                                 Projects
+                            </a>
+                            <a href="{{ route('status-pages.index') }}" wire:navigate class="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 {{ request()->routeIs('status-pages.*') ? 'bg-white/10 text-white' : '' }}">
+                                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                                Status Pages
+                            </a>
+                            <a href="{{ route('incidents.index') }}" wire:navigate class="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 {{ request()->routeIs('incidents.*') ? 'bg-white/10 text-white' : '' }}">
+                                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                                Incidents
                             </a>
                             <a href="{{ route('maintenance.index') }}" wire:navigate class="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 {{ request()->routeIs('maintenance.*') ? 'bg-white/10 text-white' : '' }}">
                                 <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,6 +227,28 @@ new class extends Component
                 </span>
                 Live Status
             </a>
+
+            <div class="border-t border-white/5 my-2 pt-2">
+                <span class="block px-4 py-1 text-xs text-gray-500 uppercase">Alerts</span>
+                <a href="{{ route('alerts.channels.index') }}" wire:navigate class="block px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('alerts.channels.*') ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                    Channels
+                </a>
+                <a href="{{ route('alerts.rules.index') }}" wire:navigate class="block px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('alerts.rules.*') ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                    Rules
+                </a>
+                <a href="{{ route('alerts.logs.index') }}" wire:navigate class="block px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('alerts.logs.*') ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                    Logs
+                </a>
+            </div>
+
+            <div class="border-t border-white/5 my-2 pt-2">
+                <a href="{{ route('status-pages.index') }}" wire:navigate class="block px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('status-pages.*') ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                    Status Pages
+                </a>
+                <a href="{{ route('incidents.index') }}" wire:navigate class="block px-4 py-2 text-sm font-medium rounded-lg {{ request()->routeIs('incidents.*') ? 'text-white bg-white/10' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                    Incidents
+                </a>
+            </div>
         </div>
 
         <!-- Responsive Settings Options -->

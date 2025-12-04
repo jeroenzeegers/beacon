@@ -10,12 +10,20 @@ use App\Livewire\Admin\Subscriptions as AdminSubscriptions;
 use App\Livewire\Admin\SystemHealth;
 use App\Livewire\Admin\Teams as AdminTeams;
 use App\Livewire\Admin\Users as AdminUsers;
+use App\Livewire\Alerts\Channels\Create as AlertChannelCreate;
+use App\Livewire\Alerts\Channels\Index as AlertChannelIndex;
+use App\Livewire\Alerts\Logs\Index as AlertLogIndex;
+use App\Livewire\Alerts\Rules\Create as AlertRuleCreate;
+use App\Livewire\Alerts\Rules\Index as AlertRuleIndex;
 use App\Livewire\Billing\Dashboard as BillingDashboard;
 use App\Livewire\Billing\Plans;
 use App\Livewire\Dashboard;
 use App\Livewire\Heartbeats\Create as HeartbeatCreate;
 use App\Livewire\Heartbeats\Index as HeartbeatIndex;
 use App\Livewire\Heartbeats\Show as HeartbeatShow;
+use App\Livewire\Incidents\Create as IncidentCreate;
+use App\Livewire\Incidents\Index as IncidentIndex;
+use App\Livewire\Incidents\Show as IncidentShow;
 use App\Livewire\LiveStatus;
 use App\Livewire\Maintenance\Create as MaintenanceCreate;
 use App\Livewire\Maintenance\Index as MaintenanceIndex;
@@ -27,6 +35,8 @@ use App\Livewire\Projects\Index as ProjectIndex;
 use App\Livewire\Projects\Show as ProjectShow;
 use App\Livewire\Reports\Create as ReportCreate;
 use App\Livewire\Reports\Index as ReportIndex;
+use App\Livewire\StatusPages\Create as StatusPageCreate;
+use App\Livewire\StatusPages\Index as StatusPageIndex;
 use App\Livewire\Teams\Members;
 use App\Livewire\Teams\Settings;
 use Illuminate\Support\Facades\Broadcast;
@@ -74,6 +84,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reports', ReportIndex::class)->name('reports.index');
     Route::get('/reports/create', ReportCreate::class)->name('reports.create');
     Route::get('/reports/{id}/edit', ReportCreate::class)->name('reports.edit');
+
+    // Alert Channels
+    Route::get('/alerts/channels', AlertChannelIndex::class)->name('alerts.channels.index');
+    Route::get('/alerts/channels/create', AlertChannelCreate::class)->name('alerts.channels.create');
+    Route::get('/alerts/channels/{id}/edit', AlertChannelCreate::class)->name('alerts.channels.edit');
+
+    // Alert Rules
+    Route::get('/alerts/rules', AlertRuleIndex::class)->name('alerts.rules.index');
+    Route::get('/alerts/rules/create', AlertRuleCreate::class)->name('alerts.rules.create');
+    Route::get('/alerts/rules/{id}/edit', AlertRuleCreate::class)->name('alerts.rules.edit');
+
+    // Alert Logs
+    Route::get('/alerts/logs', AlertLogIndex::class)->name('alerts.logs.index');
+
+    // Status Pages
+    Route::get('/status-pages', StatusPageIndex::class)->name('status-pages.index');
+    Route::get('/status-pages/create', StatusPageCreate::class)->name('status-pages.create');
+    Route::get('/status-pages/{id}/edit', StatusPageCreate::class)->name('status-pages.edit');
+
+    // Incidents
+    Route::get('/incidents', IncidentIndex::class)->name('incidents.index');
+    Route::get('/incidents/create', IncidentCreate::class)->name('incidents.create');
+    Route::get('/incidents/{id}', IncidentShow::class)->name('incidents.show');
+    Route::get('/incidents/{id}/edit', IncidentCreate::class)->name('incidents.edit');
 
     // Team
     Route::get('/team/settings', Settings::class)->name('team.settings');
