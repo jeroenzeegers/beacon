@@ -33,7 +33,7 @@ return new class extends Migration
             $table->foreignId('monitor_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['maintenance_window_id', 'monitor_id']);
+            $table->unique(['maintenance_window_id', 'monitor_id'], 'maint_window_monitor_unique');
         });
     }
 
