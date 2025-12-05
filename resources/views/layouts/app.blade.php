@@ -338,21 +338,23 @@
         <!-- Pusher & Echo for real-time updates -->
         <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.16.1/dist/echo.iife.js"></script>
-        <script>
-            // IIFE version exposes Echo.default as the constructor
-            const EchoClass = Echo.default || Echo;
-            window.Echo = new EchoClass({
-                broadcaster: 'pusher',
-                key: '{{ config('reverb.apps.apps.0.key') }}',
-                cluster: 'mt1',
-                wsHost: '{{ config('reverb.apps.apps.0.options.host') }}',
-                wsPort: {{ config('reverb.apps.apps.0.options.port', 8080) }},
-                wssPort: {{ config('reverb.apps.apps.0.options.port', 8080) }},
-                forceTLS: {{ config('reverb.apps.apps.0.options.scheme') === 'https' ? 'true' : 'false' }},
-                disableStats: true,
-                enabledTransports: ['ws', 'wss'],
-                authEndpoint: '/broadcasting/auth',
-            });
+        <script data-navigate-once>
+            // Only initialize Echo once (data-navigate-once prevents re-execution)
+            if (!window.Echo) {
+                const EchoClass = Echo.default || Echo;
+                window.Echo = new EchoClass({
+                    broadcaster: 'pusher',
+                    key: '{{ config('reverb.apps.apps.0.key') }}',
+                    cluster: 'mt1',
+                    wsHost: '{{ config('reverb.apps.apps.0.options.host') }}',
+                    wsPort: {{ config('reverb.apps.apps.0.options.port', 8080) }},
+                    wssPort: {{ config('reverb.apps.apps.0.options.port', 8080) }},
+                    forceTLS: {{ config('reverb.apps.apps.0.options.scheme') === 'https' ? 'true' : 'false' }},
+                    disableStats: true,
+                    enabledTransports: ['ws', 'wss'],
+                    authEndpoint: '/broadcasting/auth',
+                });
+            }
         </script>
 
         @livewireScripts
